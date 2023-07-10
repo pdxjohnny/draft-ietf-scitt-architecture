@@ -91,7 +91,6 @@ informative:
 venue:
   mail: scitt@ietf.org
   github: ietf-wg-scitt/draft-ietf-scitt-architecture
----
 
 --- abstract
 
