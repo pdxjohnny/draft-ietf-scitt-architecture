@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-26T00:33:02.886753+00:00",
+  "timestamp": "2023-10-29T00:36:08.382380+00:00",
   "repo": "ietf-wg-scitt/draft-ietf-scitt-architecture",
   "labels": [
     {
@@ -12983,13 +12983,13 @@
       "labels": [],
       "body": "This PR makes it clearer that merkle trees are not required, and what the structure of a receipt is.",
       "createdAt": "2023-10-24T14:55:48Z",
-      "updatedAt": "2023-10-26T00:03:24Z",
+      "updatedAt": "2023-10-26T19:46:43Z",
       "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
       "baseRefName": "main",
       "baseRefOid": "d0fb2231337ef6b4c499b98e585e86a5adf7013b",
       "headRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
       "headRefName": "fix/remove-merkle-assumptions",
-      "headRefOid": "56048937a56ee7c6f7f83d9b75ec6b15310b1f07",
+      "headRefOid": "97e532b6814d909890d65d97446eb466ef650580",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
