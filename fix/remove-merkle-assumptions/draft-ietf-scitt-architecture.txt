@@ -1282,7 +1282,7 @@ Table of Contents
 
    Transparent_Statement = #6.18(Transparent_Statement_as_COSE_Sign1)
 
-   Here is an example transparent statement:
+   Example transparent statement:
 
 6.4.1.  Example
 
