@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-29T00:36:08.382380+00:00",
+  "timestamp": "2023-11-05T00:36:48.266150+00:00",
   "repo": "ietf-wg-scitt/draft-ietf-scitt-architecture",
   "labels": [
     {
@@ -2255,15 +2255,15 @@
       "labels": [],
       "body": "@Sakurann mentioned we should reference more, and repeat or \"redefine\" less.... I agree.\r\n\r\nWe can possibly refer to this: \r\n\r\n- https://openid.net/specs/openid-connect-userinfo-vc-1_0.html#name-userinfo-vc-verification",
       "createdAt": "2023-07-14T14:32:30Z",
-      "updatedAt": "2023-10-23T23:51:51Z",
+      "updatedAt": "2023-11-04T09:57:52Z",
       "closedAt": null,
       "comments": [
         {
           "author": "pdxjohnny",
           "authorAssociation": "NONE",
-          "body": "How do we see OIDC working with SCITT other than for auth? I'm having trouble understanding how we could use a token as the issuer of a claim. It seems like that would immediately leak the token upon insertion to the log.",
+          "body": "How do we see OIDC working with SCITT other than for auth? I'm having trouble understanding how we could use a token as the issuer of a claim. It seems like that would immediately leak the token upon insertion to the log.\r\n\r\nEdit:\r\n\r\n```console\r\n$ scitt-emulator client create-claim --issuer did:web:token.actions.githubusercontent.com --content-type application/json --payload '{\"sun\": \"yellow\"}' --out claim.cose\r\n```",
           "createdAt": "2023-09-12T16:23:21Z",
-          "updatedAt": "2023-09-12T16:23:21Z"
+          "updatedAt": "2023-11-04T09:57:52Z"
         }
       ]
     },
@@ -12983,7 +12983,7 @@
       "labels": [],
       "body": "This PR makes it clearer that merkle trees are not required, and what the structure of a receipt is.",
       "createdAt": "2023-10-24T14:55:48Z",
-      "updatedAt": "2023-10-26T19:46:43Z",
+      "updatedAt": "2023-11-04T16:38:55Z",
       "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
       "baseRefName": "main",
       "baseRefOid": "d0fb2231337ef6b4c499b98e585e86a5adf7013b",
@@ -13276,6 +13276,46 @@
               "body": "```suggestion\r\n    protected : bstr .cbor Receipt_Protected_Header,\r\n```",
               "createdAt": "2023-10-26T00:03:23Z",
               "updatedAt": "2023-10-26T00:03:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mJtQP",
+          "commit": {
+            "abbreviatedOid": "5311caa"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-04T16:37:39Z",
+          "updatedAt": "2023-11-04T16:37:39Z",
+          "comments": [
+            {
+              "originalPosition": 225,
+              "body": "yes, we should... what that type should be, that's another fun conversation. ",
+              "createdAt": "2023-11-04T16:37:39Z",
+              "updatedAt": "2023-11-04T16:37:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mJtSo",
+          "commit": {
+            "abbreviatedOid": "5311caa"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-04T16:38:55Z",
+          "updatedAt": "2023-11-04T16:38:55Z",
+          "comments": [
+            {
+              "originalPosition": 169,
+              "body": "agreed, let's queue this up separately. @fournet was working on a new PR",
+              "createdAt": "2023-11-04T16:38:55Z",
+              "updatedAt": "2023-11-04T16:38:55Z"
             }
           ]
         }
