@@ -35,7 +35,7 @@ Issuers can register their Signed Statements on any Transparency Service, with t
     requests 2.31.0
     setuptools 67.7.2
     six 1.16.0
-    wcwidth 0.2.8
+    wcwidth 0.2.9
 -->
 <link href="draft-ietf-scitt-architecture.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1034,11 +1034,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SCITT Architecture</td>
-<td class="right">October 2023</td>
+<td class="right">November 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Birkholz, et al.</td>
-<td class="center">Expires 27 April 2024</td>
+<td class="center">Expires 8 May 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1051,12 +1051,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-scitt-architecture-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-10-25" class="published">25 October 2023</time>
+<time datetime="2023-11-05" class="published">5 November 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-04-27">27 April 2024</time></dd>
+<dd class="expires"><time datetime="2024-05-08">8 May 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1126,7 +1126,7 @@ Issuers can register their Signed Statements on any Transparency Service, with t
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 April 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2154,7 +2154,7 @@ Reg_Info = {
 Protected_Header = {
   1   =&gt; int             ; algorithm identifier,
   4   =&gt; bstr            ; Key ID,
-  13  =&gt; CWT_Claims      ; CBOR Web Token Claims,
+  14  =&gt; CWT_Claims      ; CBOR Web Token Claims,
   393 =&gt; Reg_Info        ; Registration Policy info,
   3   =&gt; tstr            ; payload type
 }
@@ -2257,14 +2257,20 @@ When a Receipt is included in a Signed Statement a Transparent Statement is prod
 Receipts protected headers have additional mandatory fields:<a href="#section-6.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.4-3.1">
-            <p id="section-6.4-3.1.1"><strong>crit</strong>: The <code>crit</code> header (id: 2) <span class="bcp14">MUST</span> be included and all SCITT-specific headers (version, DID of Transparency Service and Registration Policy) <span class="bcp14">MUST</span> be marked critical<a href="#section-6.4-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.4-3.1.1"><strong>scitt-version</strong>: Receipt version number <span class="bcp14">MUST</span> be set to <code>0</code> for the current implementation of this document;<a href="#section-6.4-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.4-3.2">
-            <p id="section-6.4-3.2.1"><strong>version</strong>: Receipt version number <span class="bcp14">MUST</span> be set to <code>0</code> for the current implementation of this document<a href="#section-6.4-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.4-3.2.1"><strong>verifiable-data-structure</strong>: the verifiable data structure used in the inclusion proof of the receipt;<a href="#section-6.4-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.4-3.3">
-            <p id="section-6.4-3.3.1"><strong>Reg_info</strong>: The Transparency Service <span class="bcp14">MAY</span> include the Registration policy info header to indicate to
- Verifiers what policies have been applied at the registration of this Statement<a href="#section-6.4-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-6.4-3.3.1"><strong>registration-info</strong>: The Transparency Service <span class="bcp14">MAY</span> include the Registration policy info header to indicate to
+ Verifiers what policies have been applied at the registration of this Statement;<a href="#section-6.4-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.4-3.4">
+            <p id="section-6.4-3.4.1"><strong>kccs</strong>: A CWT Claim Set representing the issuance of the receipt. Only a subset of all CWT claims can be used in a SCITT receipt.<a href="#section-6.4-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.4-3.5">
+            <p id="section-6.4-3.5.1"><strong>crit</strong>: The <code>crit</code> header (id: 2) <span class="bcp14">MUST</span> be included and the following headers <span class="bcp14">MUST</span> be marked critical: (<code>scitt-version</code>, <code>verifiable-data-structure</code>, <code>kccs</code>).<a href="#section-6.4-3.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-6.4-4">Inside Reg_info, the Transparency Service may include the registration time to help Verifiers decide about the trustworthiness of the Transparent Statement.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
@@ -2272,48 +2278,69 @@ Receipts protected headers have additional mandatory fields:<a href="#section-6.
 <p id="section-6.4-6">Editor's Note: The WG is discussing if existing CWT claims might better support these design principles.<a href="#section-6.4-6" class="pilcrow">¶</a></p>
 <div class="breakable lang-cddl sourcecode" id="section-6.4-7">
 <pre>
-Inclusion_Proofs = [ + bstr ]
-
-Verifiable_Data_Proof = {
-  &amp;(inclusion-proof: -1) =&gt; Inclusion_Proofs
-}
+label = int / tstr
+value = any
 
 Receipt_Unprotected_Header = {
-  &amp;(proofs: -222) =&gt; Verifiable_Data_Proof
+  &amp;(scitt-inclusion-proof: 396) =&gt; bstr .cbor inclusion-proof
 }
 
+; Only a subset of valid CWT headers are allowed in SCITT
 Receipt_CWT_Claims = {
-  1 =&gt; tstr; iss, the issuer signing the receipt (the identifier for the transparency service),
+  1 =&gt; tstr,                    ; iss, the issuer signing the receipt (the identifier for the transparency service),
+  ? 3 =&gt; tstr,                  ; aud, target audience of the receipt
+  ? 4 =&gt; uint .within (~time),  ; exp, receipt expiration timestamp
+  ? 6 =&gt; uint .within (~time),  ; iat, receipt issuance timestamp
+  * label =&gt; value ; label MUST be less than -65536
+}
+
+; Statement-agnostic information about registration
+; These are authenticated by the receipt signature
+Registration_Info = {
   * tstr =&gt; any
 }
 
-; Details of the registration info, as provided by the TS
-RegistrationInfo = {
-  ? "registration_time": uint .within (~time),
-  * tstr =&gt; any
+; Statement-specific information about statment registration
+; These are authenticated through the inclusion proof of the receipt
+Statement_Registration_Info = {
+    &amp;(statement-unique-id: 0) =&gt; tstr
+    &amp;(registration-policy-id: 1) =&gt; tstr
+    * label =&gt; value
 }
 
 Receipt_Protected_Header = {
-    -111 =&gt; int               ; Type of Verifiable Data Structure,
-                              ; for example "RFC9162_SHA256", or "CCF"
+    ; SCITT Receipt Version
+    &amp;(scitt-version: 390) =&gt; int,
 
-    2 =&gt; [+ label]            ; Critical headers
-    13  =&gt; Receipt_CWT_Claims ; CBOR Web Token Claims
-    390 =&gt; int                ; SCITT Receipt Version
+    ; Type of Verifiable Data Structure, e.g. RFC9162_SHA256
+    &amp;(verifiable-data-structure: -111) =&gt; int,
 
-    ? 4 =&gt; bstr        ; Key ID (optional)
-    ? 33 =&gt; COSE_X509  ; X.509 chain (optional)
-    ? 393 =&gt; Reg_info  ; Registration policy information (optional in Receipts)
+    ; CBOR Web Tokoken claim set (CCS)
+    &amp;(kccs: 14)  =&gt; Receipt_CWT_Claims,
+
+    ; Critical headers
+    &amp;(crit: 2) =&gt; [+ label],
+
+    ; Key ID (optional)
+    ? &amp;(kid: 4) =&gt; bstr,
+
+    ; X.509 chain (optional)
+    ? &amp;(x5chain: 33) =&gt; COSE_X509,
+
+    ; Statement-agnostic registration information
+    ? &amp;(registration-info: 395) =&gt; Registration_Info
 }
 
-Receipt_Headers = (
-    protected : *serialized* Receipt_Protected_Header,
-    unprotected : Receipt_Unprotected_Header
-)
+Receipt_Unprotected_Header = {
+    &amp;(statement-registration-info: 396) =&gt; Statement_Registration_Info
+}
 
+; Please note that receipts cannot carry a payload, ensuring that verifiers
+; have to recompute the root from the inclusion proof to verify the signature
 Receipt_as_COSE_Sign1 = [
-    Receipt_Headers,
-    payload : bstr / nil,
+    protected : bstr .cbor Receipt_Protected_Header,
+    unprotected : Receipt_Unprotected_Header,
+    payload: nil,
     signature : bstr
 ]
 
@@ -2321,38 +2348,19 @@ Receipt = #6.18(Receipt_as_COSE_Sign1)
 
 ; A Transparent Statement is a Signed Statement
 ; with one or more Receipts in it's unprotected header.
-
-Signed_Statement_CWT_Claims = {
-  1 =&gt; tstr; iss, the issuer
-  2 =&gt; tstr; sub, the subject
-  * tstr =&gt; any
+Transparent_Statement_Unprotected_Header = {
+    &amp;(receipts: 394) =&gt; [+ Receipt],
+    * label =&gt; any
 }
 
-Signed_Statement_Protected_Header = {
-    1 =&gt; int                            ; Signing Algorithm
-    13  =&gt; Signed_Statement_CWT_Claims  ; CBOR Web Token Claims
-    ? 4 =&gt; bstr         ; Key ID (optional)
-    ? 33 =&gt; COSE_X509   ; X.509 chain (optional)
-    393 =&gt; Reg_info     ; Registration policy information (mandatory in Signed_Statement)
-}
-
-Receipt_Unprotected_Header = {
-  &amp;(receipts: -333) =&gt; [+ Receipt]
-}
-
-Signed_Statement_Headers = (
-    protected : *serialized* Signed_Statement_Protected_Header,
-    unprotected : Signed_Statement_Unprotected_Header
-)
-
-Transparent_Signed_Statement_as_COSE_Sign1 = [
-    Signed_Statement_Headers,
+Transparent_Statement_as_COSE_Sign1 = [
+    protected : bstr .cbor Signed_Statement_Protected_Header,
+    unprotected : Transparent_Statement_Unprotected_Header,
     payload : bstr / nil,
     signature : bstr
 ]
 
-Transparent_Signed_Statement = #6.18(Transparent_Signed_Statement_as_COSE_Sign1)
-
+Transparent_Statement = #6.18(Transparent_Statement_as_COSE_Sign1)
 </pre><a href="#section-6.4-7" class="pilcrow">¶</a>
 </div>
 <p id="section-6.4-8">Here is an example transparent statement:<a href="#section-6.4-8" class="pilcrow">¶</a></p>
@@ -2499,15 +2507,35 @@ differently.<a href="#section-6.4.1.5-2" class="pilcrow">¶</a></p>
         <h3 id="name-validation-of-transparent-s">
 <a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-validation-of-transparent-s" class="section-name selfRef">Validation of Transparent Statements</a>
         </h3>
-<p id="section-6.5-1">The high-level validation algorithm is described in <a href="#validation" class="auto internal xref">Section 5.3</a>.
-The algorithm-specific details of checking Receipts are covered in <span>[<a href="#I-D.draft-steele-cose-merkle-tree-proofs" class="cite xref">I-D.draft-steele-cose-merkle-tree-proofs</a>]</span>.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
-<p id="section-6.5-2">Before checking a Transparent Statement, the Verifier must be configured with one or more identities of trusted Transparency Services.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
-<p id="section-6.5-3">Verifiers <span class="bcp14">MAY</span> be configured to re-verify the Issuer's Signed Statment locally,
-but this requires a fresh resolution of the Issuer's verificaton keys, which <span class="bcp14">MAY</span> fail if the key has been revoked.<a href="#section-6.5-3" class="pilcrow">¶</a></p>
-<p id="section-6.5-4">Some Verifiers <span class="bcp14">MAY</span> decide to locally re-apply some or all of the Registration Policies, if they have limited trust in the Transparency Services.
+<p id="section-6.5-1">The algorithm-specific details of checking inclusion proofs are covered in <span>[<a href="#I-D.draft-steele-cose-merkle-tree-proofs" class="cite xref">I-D.draft-steele-cose-merkle-tree-proofs</a>]</span>.
+The pseudo-code for validation of a transparent statement is as follows:<a href="#section-6.5-1" class="pilcrow">¶</a></p>
+<div class="lang-python sourcecode" id="section-6.5-2">
+<pre>
+let verify_transparent_statement(t) =
+  let receipt = t.unprotected.scitt-receipt
+  let version = receipt.protected.scitt-version or fail "Missing SCITT Receipt version"
+  assert(version == 1)
+
+  let leaf = COSE.serialize(t with .unprotected = {
+    334 =&gt; receipt.unprotected.scitt-statement-registration-info
+  })
+
+  let vds = receipt.protected.verifiable-data-structure of fail "Missing verifiable data structure"
+  let root = verify_inclusion_proof(vds, receipt.unprotected.scitt-inclusion-proof, leaf)
+    or fail "Failed to verify inclusion proof"
+
+  // Statement registration info has been authenticated by the inclusion proof
+  receipt.protected.scitt-statement-registration-info = receipt.unprotected.scitt-statement-info
+  return COSE.verify(receipt, detached_payload=root)
+</pre><a href="#section-6.5-2" class="pilcrow">¶</a>
+</div>
+<p id="section-6.5-3">Before checking a Transparent Statement, the Verifier must be configured with one or more identities of trusted Transparency Services.<a href="#section-6.5-3" class="pilcrow">¶</a></p>
+<p id="section-6.5-4">Verifiers <span class="bcp14">MAY</span> be configured to re-verify the Issuer's Signed Statment locally,
+but this requires a fresh resolution of the Issuer's verificaton keys, which <span class="bcp14">MAY</span> fail if the key has been revoked.<a href="#section-6.5-4" class="pilcrow">¶</a></p>
+<p id="section-6.5-5">Some Verifiers <span class="bcp14">MAY</span> decide to locally re-apply some or all of the Registration Policies, if they have limited trust in the Transparency Services.
 In addition, Verifiers <span class="bcp14">MAY</span> apply arbitrary validation policies after the Transparent Statement has been verified and validated.
-Such policies may use as input all information in the Envelope, the Receipt, and the Statement payload, as well as any local state.<a href="#section-6.5-4" class="pilcrow">¶</a></p>
-<p id="section-6.5-5">Verifiers <span class="bcp14">MAY</span> offer options to store or share the Receipt of the Transparent Statement for auditing the Transparency Services in case a dispute arises.<a href="#section-6.5-5" class="pilcrow">¶</a></p>
+Such policies may use as input all information in the Envelope, the Receipt, and the Statement payload, as well as any local state.<a href="#section-6.5-5" class="pilcrow">¶</a></p>
+<p id="section-6.5-6">Verifiers <span class="bcp14">MAY</span> offer options to store or share the Receipt of the Transparent Statement for auditing the Transparency Services in case a dispute arises.<a href="#section-6.5-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
