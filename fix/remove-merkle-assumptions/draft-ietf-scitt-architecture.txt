@@ -1301,11 +1301,11 @@ Table of Contents
        ]
    )
 
-   Notice the payload is detached, this is to support very large supply
-   chain artifacts, and to ensure that Transparent Statements can
-   integrate with existing file systems.
+   The payload is detached, this is to support very large supply chain
+   artifacts, and to ensure that Transparent Statements can integrate
+   with existing file systems.
 
-   Notice the unprotected header can contain multiple receipts.
+   The unprotected header can contain multiple receipts.
 
 6.4.1.2.  Signed Statement Protected Header
 
@@ -1319,13 +1319,12 @@ Table of Contents
      }
    }
 
-   Notice the content type, transparency services might support only
-   certain content types from certain issuers, per their registration
-   policies.
+   The content type, transparency services might support only certain
+   content types from certain issuers, per their registration policies.
 
-   Notice the CWT Claims, transparency services might support only
-   statements about certain artifacts from certain issuers, per their
-   registration policies.
+   The CWT Claims, transparency services might support only statements
+   about certain artifacts from certain issuers, per their registration
+   policies.
 
 6.4.1.3.  Receipt
 
@@ -1407,9 +1406,10 @@ Table of Contents
    configured with one or more identities of trusted Transparency
    Services.
 
-   Verifiers MAY be configured to re-verify the Issuer's Signed Statment
-   locally, but this requires a fresh resolution of the Issuer's
-   verificaton keys, which MAY fail if the key has been revoked.
+   Verifiers MAY be configured to re-verify the Issuer's Signed
+   Statement locally, but this requires a fresh resolution of the
+   Issuer's verification keys, which MAY fail if the key has been
+   revoked.
 
    Some Verifiers MAY decide to locally re-apply some or all of the
    Registration Policies, if they have limited trust in the Transparency
