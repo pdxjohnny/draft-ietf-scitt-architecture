@@ -5,13 +5,13 @@
 SCITT                                                        H. Birkholz
 Internet-Draft                                            Fraunhofer SIT
 Intended status: Standards Track                      A. Delignat-Lavaud
-Expires: 25 April 2024                                        C. Fournet
+Expires: 9 May 2024                                           C. Fournet
                                                       Microsoft Research
                                                             Y. Deshpande
                                                                      ARM
                                                                S. Lasker
                                                                    RKVST
-                                                         23 October 2023
+                                                         6 November 2023
 
 
  An Architecture for Trustworthy and Transparent Digital Supply Chains
@@ -68,7 +68,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 April 2024.
+   This Internet-Draft will expire on 9 May 2024.
 
 Copyright Notice
 
@@ -105,7 +105,8 @@ Table of Contents
      6.1.  Signed Statement Envelope
      6.2.  Creating Signed Statement
      6.3.  Registering Signed Statements
-     6.4.  Transparent Statements and Receipts
+     6.4.  Receipts & Transparent Statements
+       6.4.1.  Example
      6.5.  Validation of Transparent Statements
    7.  Federation
    8.  Transparency Service API
@@ -260,8 +261,8 @@ Table of Contents
    the data elements processed by the core components are based on the
    CBOR Signing and Encryption (COSE) standard specified in [RFC9052],
    which is used to produce Signed Statements about Artifacts and to
-   build and maintain a Merkle tree that functions as an Append-only Log
-   for corresponding Signed Statements.
+   build and maintain an Append-only Log for corresponding Signed
+   Statements.
 
 1.1.  Requirements Notation
 
@@ -293,8 +294,9 @@ Table of Contents
       append-only data structure that stores Signed Statements in a
       Transparency Service often referred to by the synonym, Registry,
       Log or Ledger.  SCITT supports multiple Log and Receipt formats to
-      accommodate different Transparency Service implementations, such
-      as historical Merkle Trees and sparse Merkle Trees.
+      accommodate different Transparency Service implementations, and
+      the proof types associated with different types of Append-only
+      Log.
 
    Artifact:  a physical or non-physical item that is moving along a
       supply chain.
@@ -321,13 +323,14 @@ Table of Contents
       as an auditor, reviewer or an endorser.
 
    Receipt:  a Receipt is a cryptographic proof that a Signed Statement
-      is recorded in the Append-only Log. Receipts are based on COSE
-      Signed Merkle Tree Proofs
-      [I-D.draft-steele-cose-merkle-tree-proofs].  Receipts consist of
-      Transparency Service-specific inclusion proofs, a signature by the
-      Transparency Service of the state of the Append-only Log, and
-      additional metadata (contained in the signature's protected
-      headers) to assist in auditing.
+      is recorded in the Append-only Log. Receipts are based on Signed
+      Inclusion Proofs as described in COSE Signed Merkle Tree Proofs
+      [I-D.draft-steele-cose-merkle-tree-proofs].  Receipts can be built
+      on different verifiable data structures, not just binary merkle
+      trees.  Receipts consist of Transparency Service-specific
+      inclusion proofs, a signature by the Transparency Service of the
+      state of the Append-only Log, and additional metadata (contained
+      in the signature's protected headers) to assist in auditing.
 
    Registration:  the process of submitting a Signed Statement to a
       Transparency Service, applying the Transparency Service's
@@ -501,9 +504,9 @@ Table of Contents
    as possible, this document only specifies the format of Signed
    Statements (which must be used by all Issuers) and a very thin
    wrapper format for Receipts, which specifies the Transparency Service
-   identity and the agility parameters for the Merkle Tree Proof.  Most
-   of the details of the Receipt's contents are specified in the COSE
-   Signed Merkle Tree Proof document
+   identity and the agility parameters for the Signed Inclusion Proofs.
+   Most of the details of the Receipt's contents are specified in the
+   COSE Signed Merkle Tree Proof document
    [I-D.draft-steele-cose-merkle-tree-proofs].
 
    This section describes at a high level, the three main roles and
@@ -860,16 +863,15 @@ Table of Contents
    other variants.  The Transparency Service is only required to support
    concise Receipts (i.e., whose size grows at most logarithmically in
    the number of entries in the Append-only Log) that can be encoded as
-   a COSE Signed Merkle Tree Proof.
+   a Signed Inclusion Proof.
 
    It is possible to offer multiple signature algorithms for the COSE
-   signature of receipts' Signed Merkle Tree, or to change the signing
-   algorithm at later points.  However, the Merkle Tree algorithm
-   (including its internal hash function) cannot easily be changed
-   without breaking the consistency of the Append-only Log. It is
-   possible to maintain separate Registries for each algorithm in
-   parallel but the Transparency Service is then responsible for proving
-   their mutual consistency.
+   signature of receipts' Signed Inclusion Proofs, or to change the
+   signing algorithm at later points.  However, the verifiable data
+   structure cannot easily be changed without breaking the consistency
+   of the Append-only Log. It is possible to maintain separate
+   Registries for each algorithm in parallel but the Transparency
+   Service is then responsible for proving their mutual consistency.
 
 5.2.3.1.  Finality
 
@@ -1056,7 +1058,7 @@ Table of Contents
    Protected_Header = {
      1   => int             ; algorithm identifier,
      4   => bstr            ; Key ID,
-     13  => CWT_Claims      ; CBOR Web Token Claims,
+     14  => CWT_Claims      ; CBOR Web Token Claims,
      393 => Reg_Info        ; Registration Policy info,
      3   => tstr            ; payload type
    }
@@ -1157,104 +1159,265 @@ Table of Contents
    content, for instance after a transient fault during Signed Statement
    registration.
 
-6.4.  Transparent Statements and Receipts
+6.4.  Receipts & Transparent Statements
 
    When a Signed Statement is registered by a Transparency Service a
-   Transparent Statement is created.  This Transparent Statement
-   consists of the Signed Statement and a Receipt.  Receipts are based
-   on COSE Signed Merkle Tree Proofs
-   ([I-D.draft-steele-cose-merkle-tree-proofs]) with an additional
-   wrapper structure that adds the following information:
+   Receipt becomes available.  When a Receipt is included in a Signed
+   Statement a Transparent Statement is produced.
 
-   *  *version*: Receipt version number MUST be set to 0 for the current
-      implementation of this document
+   Receipts are based on Signed Inclusion Proofs as described in COSE
+   Signed Merkle Tree Proofs
+   ([I-D.draft-steele-cose-merkle-tree-proofs]).  Receipts protected
+   headers have additional mandatory fields:
 
-   *  *ts_identifier*: The DID of the Transparency Service that issued
-      the Receipt.  Verifiers MAY use this DID as a key discovery
-      mechanism to verify the Receipt.  The verification is the same for
-      Signed Statement and the signer MAY include the kid header
-      parameter.  Verifiers MUST support the did:web method, all other
-      methods are optional.
+   *  *scitt-version*: Receipt version number MUST be set to 0 for the
+      current implementation of this document;
 
-   The following requirements for the COSE signature of the Merkle Root
-   are added:
+   *  *verifiable-data-structure*: the verifiable data structure used in
+      the inclusion proof of the receipt;
 
-   *  The SCITT version header MUST be included and its value match the
-      version field of the Receipt structure
+   *  *registration-info*: The Transparency Service MAY include the
+      Registration policy info header to indicate to Verifiers what
+      policies have been applied at the registration of this Statement;
 
-   *  The DID of Issuer header (in Signed Statements) MUST be included
-      and its value match the ts_identifier field of the Receipt
-      structure
+   *  *kccs*: A CWT Claim Set representing the issuance of the receipt.
+      Only a subset of all CWT claims can be used in a SCITT receipt.
 
-   *  Transparency Service MAY include the Registration policy info
-      header to indicate to Verifiers what policies have been applied at
-      the registration of this Statement
+   *  *crit*: The crit header (id: 2) MUST be included and the following
+      headers MUST be marked critical: (scitt-version, verifiable-data-
+      structure, kccs).
 
-   *  Since [I-D.draft-steele-cose-merkle-tree-proofs] uses optional
-      headers, the crit header (id: 2) MUST be included and all SCITT-
-      specific headers (version, DID of Transparency Service and
-      Registration Policy) MUST be marked critical
+   Inside Reg_info, the Transparency Service may include the
+   registration time to help Verifiers decide about the trustworthiness
+   of the Transparent Statement.
 
-   The Transparency Service may include the registration time to help
-   Verifiers decide about the trustworthiness of the Transparent
-   Statement.  The registration time is defined as the timestamp at
-   which the Transparency Service has added this Signed Statement to its
-   Append-only Log.
+   The registration time is defined as the timestamp at which the
+   Transparency Service has added this Signed Statement to its Append-
+   only Log.
 
-   Receipt = [
-       version: int,
-       ts_identifier: tstr,
-       proof: SignedMerkleTreeProof
-   ]
+   Editor's Note: The WG is discussing if existing CWT claims might
+   better support these design principles.
 
-   ; Additional protected headers
-   ; in the COSE signed_tree_root of the SignedMerkleTreeProof
-   Protected_Header = {
-     390 => int         ; SCITT Receipt Version
-     394 => tstr        ; DID of Transparency Service (required)
-     ? 393 => Reg_info  ; Registration policy information (optional)
+   label = int / tstr
+   value = any
 
-     ; Other COSE Signed Merkle Tree headers
-     ; (e.g. tree algorithm, tree size)
-
-     ; Additional standard COSE headers
-     2 => [+ label]     ; Critical headers
-     ? 4 => bstr        ; Key ID (optional)
-     ? 33 => COSE_X509  ; X.509 chain (optional)
+   Receipt_Unprotected_Header = {
+     &(scitt-inclusion-proof: 396) => bstr .cbor inclusion-proof
    }
 
-   ; Details of the registration info, as provided by the TS
-   RegistrationInfo = {
-     ? "registration_time": uint .within (~time),
+   ; Only a subset of valid CWT headers are allowed in SCITT
+   Receipt_CWT_Claims = {
+     1 => tstr,                    ; iss, the issuer signing the receipt (the identifier for the transparency service),
+     ? 3 => tstr,                  ; aud, target audience of the receipt
+     ? 4 => uint .within (~time),  ; exp, receipt expiration timestamp
+     ? 6 => uint .within (~time),  ; iat, receipt issuance timestamp
+     * label => value ; label MUST be less than -65536
+   }
+
+   ; Statement-agnostic information about registration
+   ; These are authenticated by the receipt signature
+   Registration_Info = {
      * tstr => any
    }
 
+   ; Statement-specific information about statment registration
+   ; These are authenticated through the inclusion proof of the receipt
+   Statement_Registration_Info = {
+       &(statement-unique-id: 0) => tstr
+       &(registration-policy-id: 1) => tstr
+       * label => value
+   }
+
+   Receipt_Protected_Header = {
+       ; SCITT Receipt Version
+       &(scitt-version: 390) => int,
+
+       ; Type of Verifiable Data Structure, e.g. RFC9162_SHA256
+       &(verifiable-data-structure: -111) => int,
+
+       ; CBOR Web Tokoken claim set (CCS)
+       &(kccs: 14)  => Receipt_CWT_Claims,
+
+       ; Critical headers
+       &(crit: 2) => [+ label],
+
+       ; Key ID (optional)
+       ? &(kid: 4) => bstr,
+
+       ; X.509 chain (optional)
+       ? &(x5chain: 33) => COSE_X509,
+
+       ; Statement-agnostic registration information
+       ? &(registration-info: 395) => Registration_Info
+   }
+
+   Receipt_Unprotected_Header = {
+       &(statement-registration-info: 396) => Statement_Registration_Info
+   }
+
+   ; Please note that receipts cannot carry a payload, ensuring that verifiers
+   ; have to recompute the root from the inclusion proof to verify the signature
+   Receipt_as_COSE_Sign1 = [
+       protected : bstr .cbor Receipt_Protected_Header,
+       unprotected : Receipt_Unprotected_Header,
+       payload: nil,
+       signature : bstr
+   ]
+
+   Receipt = #6.18(Receipt_as_COSE_Sign1)
+
+   ; A Transparent Statement is a Signed Statement
+   ; with one or more Receipts in it's unprotected header.
+   Transparent_Statement_Unprotected_Header = {
+       &(receipts: 394) => [+ Receipt],
+       * label => any
+   }
+
+   Transparent_Statement_as_COSE_Sign1 = [
+       protected : bstr .cbor Signed_Statement_Protected_Header,
+       unprotected : Transparent_Statement_Unprotected_Header,
+       payload : bstr / nil,
+       signature : bstr
+   ]
+
+   Transparent_Statement = #6.18(Transparent_Statement_as_COSE_Sign1)
+
+   Example transparent statement:
+
+6.4.1.  Example
+
+6.4.1.1.  Signed Statement
+
+   18(                                 / COSE Sign 1                   /
+       [
+         h'a4012603...6d706c65',       / Protected                     /
+         {                             / Unprotected                   /
+           -333: [                     / Receipts (1)                  /
+             h'd284586c...4191f9d2'    / Receipt 1                     /
+           ]
+         },
+         h'',                          / Detached payload              /
+         h'79ada558...3a28bae4'        / Signature                     /
+       ]
+   )
+
+   The payload is detached, this is to support very large supply chain
+   artifacts, and to ensure that Transparent Statements can integrate
+   with existing file systems.
+
+   The unprotected header can contain multiple receipts.
+
+6.4.1.2.  Signed Statement Protected Header
+
+   {                                   / Protected                     /
+     1: -7,                            / Algorithm                     /
+     3: application/example+json,      / Content type                  /
+     4: h'50685f55...50523255',        / Key identifier                /
+     13: {                             / CWT Claims                    /
+       1: software.vendor.example,     / Issuer                        /
+       2: vendor.product.example,      / Subject                       /
+     }
+   }
+
+   The content type, transparency services might support only certain
+   content types from certain issuers, per their registration policies.
+
+   The CWT Claims, transparency services might support only statements
+   about certain artifacts from certain issuers, per their registration
+   policies.
+
+6.4.1.3.  Receipt
+
+   18(                                 / COSE Sign 1                   /
+       [
+         h'a4012604...6d706c65',       / Protected                     /
+         {                             / Unprotected                   /
+           -222: {                     / Proofs                        /
+             -1: [                     / Inclusion proofs (1)          /
+               h'83080783...32568964', / Inclusion proof 1             /
+             ]
+           },
+         },
+         h'',                          / Detached payload              /
+         h'10f6b12a...4191f9d2'        / Signature                     /
+       ]
+   )
+
+   Notice the unprotected header contains verifiable data structure
+   proofs, see the protected header for details regarding the specific
+   verifiable data structure used.
+
+6.4.1.4.  Receipt Protected Header
+
+   {                                   / Protected                     /
+     1: -7,                            / Algorithm                     /
+     4: h'50685f55...50523255',        / Key identifier                /
+     -111: 1,                          / Verifiable Data Structure     /
+     13: {                             / CWT Claims                    /
+       1: transparency.vendor.example, / Issuer                        /
+       2: vendor.product.example,      / Subject                       /
+     }
+   }
+
+   Notice the verifiable data structure used is RFC9162_SHA256 in this
+   case.  We know from the COSE Verifiable Data Structure Registry that
+   RFC9162_SHA256 is value 1, and that it supports -1 (inclusion proofs)
+   and -2 (consistency proofs).
+
+6.4.1.5.  Inclusion Proof
+
+   [                                   / Inclusion proof 1             /
+     8,                                / Tree size                     /
+     7,                                / Leaf index                    /
+     [                                 / Inclusion hashes (3)          /
+        h'c561d333...f9850597'         / Intermediate hash 1           /
+        h'75f177fd...2e73a8ab'         / Intermediate hash 2           /
+        h'0bdaaed3...32568964'         / Intermediate hash 3           /
+     ]
+   ]
+
+   This is a decoded inclusion proof for RFC9162_SHA256, other
+   verifiable data structures might encode inclusion proofs differently.
+
 6.5.  Validation of Transparent Statements
 
-   The high-level validation algorithm is described in Section 5.3.  The
-   algorithm-specific details of checking Receipts are covered in
-   [I-D.draft-steele-cose-merkle-tree-proofs].
+   The algorithm-specific details of checking inclusion proofs are
+   covered in [I-D.draft-steele-cose-merkle-tree-proofs].  The pseudo-
+   code for validation of a transparent statement is as follows:
+
+   let verify_transparent_statement(t) =
+     let receipt = t.unprotected.scitt-receipt
+     let version = receipt.protected.scitt-version or fail "Missing SCITT Receipt version"
+     assert(version == 1)
+
+     let leaf = COSE.serialize(t with .unprotected = {
+       334 => receipt.unprotected.statement-registration-info
+     })
+
+     let vds = receipt.protected.verifiable-data-structure of fail "Missing verifiable data structure"
+     let root = verify_inclusion_proof(vds, receipt.unprotected.scitt-inclusion-proof, leaf)
+       or fail "Failed to verify inclusion proof"
+
+     // Statement registration info has been authenticated by the inclusion proof
+     receipt.protected.statement-registration-info = receipt.unprotected.statement-registration-info
+     return COSE.verify(receipt, detached_payload=root)
 
    Before checking a Transparent Statement, the Verifier must be
    configured with one or more identities of trusted Transparency
-   Services.  If more than one service is configured, the Verifier MUST
-   return which service the Transparent Statement is registered on.
+   Services.
 
-   In some scenarios, the Verifier already expects a specific Issuer and
-   Subject for the Transparent Statement, while in other cases they are
-   not known in advance and can be an output of validation.  Verifiers
-   MAY be configured to re-verify the Issuer's signature locally, but
-   this requires a fresh resolution of the Issuer's DID, which MAY fail
-   if the DID document is not available or if the Statement's signing
-   key has been revoked.  Otherwise, the Verifier trusts the validation
-   done by the Transparency Service during Registration.
+   Verifiers MAY be configured to re-verify the Issuer's Signed
+   Statement locally, but this requires a fresh resolution of the
+   Issuer's verification keys, which MAY fail if the key has been
+   revoked.
 
    Some Verifiers MAY decide to locally re-apply some or all of the
    Registration Policies, if they have limited trust in the Transparency
    Services.  In addition, Verifiers MAY apply arbitrary validation
-   policies after the signature and Receipt have been checked.  Such
-   policies may use as input all information in the Envelope, the
-   Receipt, and the Statement payload, as well as any local state.
+   policies after the Transparent Statement has been verified and
+   validated.  Such policies may use as input all information in the
+   Envelope, the Receipt, and the Statement payload, as well as any
+   local state.
 
    Verifiers MAY offer options to store or share the Receipt of the
    Transparent Statement for auditing the Transparency Services in case
@@ -1275,22 +1438,16 @@ Table of Contents
 
    This may involve registering the same Signed Statements at different
    Transparency Services, each with their own purpose and Registration
-   Policy.  This may also involve attaching multiple Receipts to the
-   same Signed Statements, each Receipt endorsing the Issuer signature
-   and a subset of prior Receipts, and each Transparency Service
-   verifying prior Receipts as part of their Registration Policy.
+   Policy.
 
-   For example, a supplier may provide a complete, authoritative
-   Transparency Service for its Signed Statements, whereas a Verifiers's
-   Transparency Service may collect different kinds of Signed Statements
-   to ensure complete auditing for a specific use case, and possibly
-   require additional reviews before registering some of these Signed
+   This may also involve attaching multiple Receipts to the same Signed
    Statements.
 
-   An independent entities (security companies) may Issue statements of
-   quality about different artifacts on their own Transparency Service.
-   Verifiers choose which independent entities they trust, just as
-   entities choose different security companies today.
+   For example, a software producer of a supply chain artifact might
+   rely on multiple independent software producers operating
+   transparency services for their upstream artifacts.  Downstream
+   producers benefit from upstream producers providing higher
+   transparency regarding their artifacts.
 
 8.  Transparency Service API
 
