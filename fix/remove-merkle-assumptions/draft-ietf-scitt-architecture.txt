@@ -5,13 +5,13 @@
 SCITT                                                        H. Birkholz
 Internet-Draft                                            Fraunhofer SIT
 Intended status: Standards Track                      A. Delignat-Lavaud
-Expires: 8 May 2024                                           C. Fournet
+Expires: 9 May 2024                                           C. Fournet
                                                       Microsoft Research
                                                             Y. Deshpande
                                                                      ARM
                                                                S. Lasker
                                                                    RKVST
-                                                         5 November 2023
+                                                         6 November 2023
 
 
  An Architecture for Trustworthy and Transparent Digital Supply Chains
@@ -68,7 +68,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 May 2024.
+   This Internet-Draft will expire on 9 May 2024.
 
 Copyright Notice
 
@@ -1391,7 +1391,7 @@ Table of Contents
      assert(version == 1)
 
      let leaf = COSE.serialize(t with .unprotected = {
-       334 => receipt.unprotected.scitt-statement-registration-info
+       334 => receipt.unprotected.statement-registration-info
      })
 
      let vds = receipt.protected.verifiable-data-structure of fail "Missing verifiable data structure"
@@ -1399,7 +1399,7 @@ Table of Contents
        or fail "Failed to verify inclusion proof"
 
      // Statement registration info has been authenticated by the inclusion proof
-     receipt.protected.scitt-statement-registration-info = receipt.unprotected.scitt-statement-info
+     receipt.protected.statement-registration-info = receipt.unprotected.statement-registration-info
      return COSE.verify(receipt, detached_payload=root)
 
    Before checking a Transparent Statement, the Verifier must be
