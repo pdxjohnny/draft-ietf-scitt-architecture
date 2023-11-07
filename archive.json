@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-05T00:36:48.266150+00:00",
+  "timestamp": "2023-11-07T00:34:47.788860+00:00",
   "repo": "ietf-wg-scitt/draft-ietf-scitt-architecture",
   "labels": [
     {
@@ -2045,7 +2045,7 @@
       ],
       "body": "This issue tracks initial work to be completed regarding profiling of COSE to support federation for SCITT.\r\n\r\n\r\nSome initial topics that still need to be addressed:\r\n\r\n- How do transparency services discovery each other?\r\n- How do they know if their policies are compatible?\r\n- How do they know if they support the same issuers? \r\n- How do they know if they support the same artifact types?\r\n- How is issuer privacy impacted by federation? ",
       "createdAt": "2023-07-08T12:39:47Z",
-      "updatedAt": "2023-10-23T23:55:45Z",
+      "updatedAt": "2023-11-06T23:19:39Z",
       "closedAt": null,
       "comments": [
         {
@@ -2068,6 +2068,13 @@
           "body": "At least as I was playing with it in that emulator pull request it the hash algorithm used you be part of the entry ID (similar to container image format reference by sha256 format). It the entry hash algorithm could also be part of the service parameters. If log A and log B had different entry id hash algorithms federation would involve an index or mapping so that federation mechanics don't end up re-inserting a claim which already exists Example: Log A federates Claim A1 to Log B. Log B inserts claim A1 as B1, federates event to Log A which inserts claims as A2. If entries were content addressable it would be fast to determine and A2 is in fact A1 and does not need to be re-inserted. If they aren't the same then a mapping transmitted with the federation event would include the known entry IDs within each log or something.",
           "createdAt": "2023-10-18T03:31:24Z",
           "updatedAt": "2023-10-18T03:31:24Z"
+        },
+        {
+          "author": "pdxjohnny",
+          "authorAssociation": "NONE",
+          "body": "Some options for Federation:\r\n\r\n- https://www.w3.org/TR/activitypub/\r\n  - Pros\r\n    - Existing Adoption\r\n  - Cons\r\n    - Not sure if built with confidentiality as first thing in mind, not sure if this matters if the point is transparency\r\n- [WireFederation_0_0_4.pdf](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/files/13273496/WireFederation_0_0_4.pdf)\r\n  - Pros\r\n    - IETF Adjacent?\r\n  - Cons\r\n    - Pre-v1",
+          "createdAt": "2023-11-06T23:19:17Z",
+          "updatedAt": "2023-11-06T23:19:39Z"
         }
       ]
     },
@@ -2411,17 +2418,17 @@
     {
       "number": 96,
       "id": "I_kwDOIvmHss5wzzdy",
-      "title": "Discovery of service parameters for receipt verification",
+      "title": "Discovery of service parameters",
       "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/96",
-      "state": "CLOSED",
+      "state": "OPEN",
       "author": "pdxjohnny",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Knowledge of SCITT's tree algorithm and parameters for that tree algorithm are required for a client to verify receipts. It seems like we need to have an endpoint to enable discovery of those parameters.",
       "createdAt": "2023-09-12T14:18:47Z",
-      "updatedAt": "2023-10-18T03:31:39Z",
-      "closedAt": "2023-09-12T15:27:38Z",
+      "updatedAt": "2023-11-06T09:07:19Z",
+      "closedAt": null,
       "comments": [
         {
           "author": "pdxjohnny",
@@ -2436,6 +2443,13 @@
           "body": "Related: https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/79#issuecomment-1767570492",
           "createdAt": "2023-10-18T03:31:38Z",
           "updatedAt": "2023-10-18T03:31:38Z"
+        },
+        {
+          "author": "pdxjohnny",
+          "authorAssociation": "NONE",
+          "body": "After discussion this weekend with Steven and Cedric we talked about needing an endpoint for service parameter discovery. This also appears necessary for federation.",
+          "createdAt": "2023-11-06T09:06:22Z",
+          "updatedAt": "2023-11-06T09:07:13Z"
         }
       ]
     },
@@ -2754,7 +2768,7 @@
       "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/116",
       "state": "OPEN",
       "author": "aj-stein-nist",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Define the term non-equivocation formally as it relates to this architecture document, per https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/107#discussion_r1367393803.\r\n            ",
@@ -2832,6 +2846,22 @@
       "body": "For signed statements and receipts.",
       "createdAt": "2023-10-25T18:37:30Z",
       "updatedAt": "2023-10-25T18:37:30Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 127,
+      "id": "I_kwDOIvmHss51-2CK",
+      "title": "Registration and Config statements MUST specify ",
+      "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/127",
+      "state": "OPEN",
+      "author": "SteveLasker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "[Line 635](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/126/files#diff-585fb424519b79cf000445f3425fa56d328cbaca5d2a622740ddc4e5ca91dbe1R635) in PR #126 indicates: \r\n\r\n> The configuration `reg_info` SHOULD include a secure version number and a timestamp.\r\n\r\nAs these values are considered critical to the stability of the Transparency Service, I made the [comment \"To avoid rollbacks, we SHOULD likely make this a MUST, specific to configuration.\"](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/126/files#r1382909297)\r\n\r\nThis issue tracks the proposed change",
+      "createdAt": "2023-11-06T15:16:45Z",
+      "updatedAt": "2023-11-06T15:16:45Z",
       "closedAt": null,
       "comments": []
     }
@@ -6101,7 +6131,7 @@
       "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/68",
       "state": "MERGED",
       "author": "ad-l",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "As proposed in at the WG meeting in Tokyo, we would like to move receipts as a generic primitive in COSE. (see issue #22)\r\n\r\nThis PR removes all explicit references to the SCITT receipt ID and instead defines Receipts based on [Orie's COSE Signer Merkle Tree Proof ID](https://ietf-scitt.github.io/draft-steele-cose-merkle-tree-proofs/letmaik/remove-non-rfc-tree-algs/draft-steele-cose-merkle-tree-proofs.html#name-signed-merkle-tree-proof).\r\n\r\nNote that I also incorporated 2 proposed changes to make SCITT statement and receipt signature more symmetrical:\r\n- Receipts now include the DID of the transparency service. This can be optionally used to discover the receipt signing key. This change was originally proposed at the IETF WG meeting in London. It simplifies statement authorization, as verifiers can only trust the stable DID of the TS instead of worry about keys or certificate that may be rotated\r\n- Transparency services can now indicate the registration policies that were actually applied. This is very helpful for verifier, for instance to check the freshness of claims. This was proposed in Tokyo",
@@ -6448,7 +6478,7 @@
             "abbreviatedOid": "3f74f45"
           },
           "author": "ad-l",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-06-06T14:14:06Z",
@@ -12976,24 +13006,26 @@
       "id": "PR_kwDOIvmHss5dptHs",
       "title": "Address Receipts",
       "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/123",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This PR makes it clearer that merkle trees are not required, and what the structure of a receipt is.",
       "createdAt": "2023-10-24T14:55:48Z",
-      "updatedAt": "2023-11-04T16:38:55Z",
+      "updatedAt": "2023-11-06T15:19:49Z",
       "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
       "baseRefName": "main",
       "baseRefOid": "d0fb2231337ef6b4c499b98e585e86a5adf7013b",
       "headRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
       "headRefName": "fix/remove-merkle-assumptions",
-      "headRefOid": "97e532b6814d909890d65d97446eb466ef650580",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "a2e86c08b281feb69c7743d8dad731bd81eb6432",
+      "closedAt": "2023-11-06T15:19:49Z",
+      "mergedAt": "2023-11-06T15:19:49Z",
+      "mergedBy": "SteveLasker",
+      "mergeCommit": {
+        "oid": "a4645e4bc3e78ad5cfd9f8347c7e0ac8267c1079"
+      },
       "comments": [
         {
           "author": "robinbryce",
@@ -13015,6 +13047,34 @@
           "body": "If you approved this PR, you should probably review and approve https://github.com/cose-wg/draft-ietf-cose-merkle-tree-proofs/pull/8 ",
           "createdAt": "2023-10-24T21:04:18Z",
           "updatedAt": "2023-10-24T21:04:18Z"
+        },
+        {
+          "author": "ad-l",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@OR13 I added the changes from the IETF Hackathon, including the new statement-specific registration information in the receipt and the description of transparent statement verification algorithm. The examples will have to be aligned to the new CDDL",
+          "createdAt": "2023-11-05T14:53:22Z",
+          "updatedAt": "2023-11-05T14:53:22Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "These improvements seem excellent... I would approve them, if I could, but I opened the PR.",
+          "createdAt": "2023-11-05T15:01:30Z",
+          "updatedAt": "2023-11-05T15:01:30Z"
+        },
+        {
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@henkbirkholz , can you please re-review your \"requested changes\" review",
+          "createdAt": "2023-11-05T15:30:16Z",
+          "updatedAt": "2023-11-05T15:30:16Z"
+        },
+        {
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merging as Henks comment was resolved",
+          "createdAt": "2023-11-06T15:19:23Z",
+          "updatedAt": "2023-11-06T15:19:23Z"
         }
       ],
       "reviews": [
@@ -13316,6 +13376,590 @@
               "body": "agreed, let's queue this up separately. @fournet was working on a new PR",
               "createdAt": "2023-11-04T16:38:55Z",
               "updatedAt": "2023-11-04T16:38:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mKaBF",
+          "commit": {
+            "abbreviatedOid": "61dcef6"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2023-11-05T15:09:36Z",
+          "updatedAt": "2023-11-05T15:29:01Z",
+          "comments": [
+            {
+              "originalPosition": 207,
+              "body": "```suggestion\r\nExample transparent statement:\r\n```",
+              "createdAt": "2023-11-05T15:09:36Z",
+              "updatedAt": "2023-11-05T15:29:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mMKTv",
+          "commit": {
+            "abbreviatedOid": "8682ef5"
+          },
+          "author": "ad-l",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Even though some of the text needs to be adjusted to the receipt changes I think we should merge this as quickly as possible",
+          "createdAt": "2023-11-06T08:04:55Z",
+          "updatedAt": "2023-11-06T08:04:55Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mMR1F",
+          "commit": {
+            "abbreviatedOid": "5604893"
+          },
+          "author": "ad-l",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T08:23:51Z",
+          "updatedAt": "2023-11-06T08:23:51Z",
+          "comments": [
+            {
+              "originalPosition": 176,
+              "body": "This should be addressed by my latest changes",
+              "createdAt": "2023-11-06T08:23:51Z",
+              "updatedAt": "2023-11-06T08:23:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mMTNx",
+          "commit": {
+            "abbreviatedOid": "5311caa"
+          },
+          "author": "ad-l",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T08:27:05Z",
+          "updatedAt": "2023-11-06T08:27:06Z",
+          "comments": [
+            {
+              "originalPosition": 169,
+              "body": "According to the current IANA registry https://www.iana.org/assignments/cose/cose.xhtml kccs is the header that has the correct type (map) and semantics (CWT claim set). So I changed the receipt type to use 14",
+              "createdAt": "2023-11-06T08:27:05Z",
+              "updatedAt": "2023-11-06T08:27:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mMTqk",
+          "commit": {
+            "abbreviatedOid": "5311caa"
+          },
+          "author": "ad-l",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T08:27:59Z",
+          "updatedAt": "2023-11-06T08:28:00Z",
+          "comments": [
+            {
+              "originalPosition": 168,
+              "body": "The semantics is that you need either a `kid` or a `x5chain`, but not both. There is no easy way to specify this in the syntax of the headers so I think this has to be specified in text",
+              "createdAt": "2023-11-06T08:27:59Z",
+              "updatedAt": "2023-11-06T08:28:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mMURD",
+          "commit": {
+            "abbreviatedOid": "5311caa"
+          },
+          "author": "ad-l",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T08:29:26Z",
+          "updatedAt": "2023-11-06T08:29:26Z",
+          "comments": [
+            {
+              "originalPosition": 225,
+              "body": "Let's not block this PR on this. Picking one of the BOM types could bias the architecture and we want to be completely neutral",
+              "createdAt": "2023-11-06T08:29:26Z",
+              "updatedAt": "2023-11-06T08:29:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mP4Kq",
+          "commit": {
+            "abbreviatedOid": "a2e86c0"
+          },
+          "author": "fournet",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I also suggest we merge then work on the details. ",
+          "createdAt": "2023-11-06T15:07:45Z",
+          "updatedAt": "2023-11-06T15:07:45Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 126,
+      "id": "PR_kwDOIvmHss5enZwL",
+      "title": "Transparency Service configurations and policies (IETF118 hackathon)",
+      "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/126",
+      "state": "OPEN",
+      "author": "fournet",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Extending the architecture with Transparent Statements recording the Transparency Service configuration, notably its registration policy. The syntax of the configuration (notably its supported registration policies) are still TBC.  ",
+      "createdAt": "2023-11-05T11:25:51Z",
+      "updatedAt": "2023-11-06T15:17:39Z",
+      "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "d0fb2231337ef6b4c499b98e585e86a5adf7013b",
+      "headRepository": "fournet/draft-ietf-scitt-architecture",
+      "headRefName": "configuration",
+      "headRefOid": "5427d83077fec440d1f47f68489d783c39dddc88",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOIvmHss5mKYSF",
+          "commit": {
+            "abbreviatedOid": "e4c5431"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-05T14:33:33Z",
+          "updatedAt": "2023-11-05T14:33:33Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\nThe registration policy for statements with this media type is implementation-specific.\r\nThe implementation SHOULD document them, for example defining the Issuers authorized to register configuration Signed Statements. \r\n```",
+              "createdAt": "2023-11-05T14:33:33Z",
+              "updatedAt": "2023-11-05T14:33:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mKYix",
+          "commit": {
+            "abbreviatedOid": "a12708e"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "a few nits, and a question on how we manage a concept, such as registration policy, and the format of that content",
+          "createdAt": "2023-11-05T14:40:30Z",
+          "updatedAt": "2023-11-05T14:44:06Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "is this the `3 payload type` in the protected header?\r\nAgree we need a way to determine this. I do wonder how the payload type and mediaType that says it's json, XML, rdf, or others would conflict with this. \r\n",
+              "createdAt": "2023-11-05T14:40:31Z",
+              "updatedAt": "2023-11-05T14:44:06Z"
+            },
+            {
+              "originalPosition": 12,
+              "body": "```suggestion\r\nThe Transparency Service MUST register a Signed Statement that defines its initial configuration before registering any other Signed Statement.\r\nThe Transparency Service MAY register an additional Signed Statement that updates its configuration. \r\n```",
+              "createdAt": "2023-11-05T14:40:59Z",
+              "updatedAt": "2023-11-05T14:44:06Z"
+            },
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\nThe Transparency Service provides an endpoint that returns the Transparency Statement that describes its current configuration.\r\n```",
+              "createdAt": "2023-11-05T14:41:54Z",
+              "updatedAt": "2023-11-05T14:44:06Z"
+            },
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2023-11-05T14:42:04Z",
+              "updatedAt": "2023-11-05T14:44:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mKZKU",
+          "commit": {
+            "abbreviatedOid": "23fa55b"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-05T14:52:41Z",
+          "updatedAt": "2023-11-05T14:52:42Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "```suggestion\r\n\r\n~~~ cddl\r\n```",
+              "createdAt": "2023-11-05T14:52:41Z",
+              "updatedAt": "2023-11-05T14:52:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mMIMh",
+          "commit": {
+            "abbreviatedOid": "a12708e"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T07:59:01Z",
+          "updatedAt": "2023-11-06T07:59:01Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Further discussions: the base mediaType could be `application/scitt-configuration`, with a `+<format>` as the various implementation formats evolve",
+              "createdAt": "2023-11-06T07:59:01Z",
+              "updatedAt": "2023-11-06T07:59:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mMIrj",
+          "commit": {
+            "abbreviatedOid": "ed74081"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T08:00:19Z",
+          "updatedAt": "2023-11-06T08:00:19Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\nThe Transparency Service records its configuration in the Append-Only Log using Transparent Statements with distinguished media type `application/scitt-configuration`.\r\n```",
+              "createdAt": "2023-11-06T08:00:19Z",
+              "updatedAt": "2023-11-06T08:00:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mMM4A",
+          "commit": {
+            "abbreviatedOid": "1591fc7"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T08:11:20Z",
+          "updatedAt": "2023-11-06T08:11:21Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\nThe registration policy for statements with the media type suffix (`+<format>` is implementation-specific.\r\n```",
+              "createdAt": "2023-11-06T08:11:20Z",
+              "updatedAt": "2023-11-06T08:11:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mMNkA",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T08:13:12Z",
+          "updatedAt": "2023-11-06T08:13:12Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "To avoid rollbacks, we SHOULD likely make this a MUST, specific to configuration.",
+              "createdAt": "2023-11-06T08:13:12Z",
+              "updatedAt": "2023-11-06T08:13:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mMN3g",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM as a great baseline, output of the IETF 118 hackathon",
+          "createdAt": "2023-11-06T08:13:59Z",
+          "updatedAt": "2023-11-06T08:13:59Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mPHvm",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "yogeshbdeshpande",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T13:57:28Z",
+          "updatedAt": "2023-11-06T13:57:29Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\nDesignated authorised entities are allowed to submit Configuration statements to the Transparency Service.\r\n\r\nThe Transparency Service records the configuration in the Append-Only Log using Transparent Statements with distinguished media type `application/scitt-configuration`.\r\n```",
+              "createdAt": "2023-11-06T13:57:28Z",
+              "updatedAt": "2023-11-06T13:57:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mPIQk",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "yogeshbdeshpande",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T13:58:24Z",
+          "updatedAt": "2023-11-06T13:58:24Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\nThe Transparency Service records its configuration in the Append-Only Log using Signed Statements with distinguished media type `application/scitt-configuration`.\r\n```",
+              "createdAt": "2023-11-06T13:58:24Z",
+              "updatedAt": "2023-11-06T13:58:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mPJl1",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "yogeshbdeshpande",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T14:00:52Z",
+          "updatedAt": "2023-11-06T14:00:52Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\r\nThe Transparency Service provides an endpoint that returns the Transparent Statement that describes its current configuration.\r\n```",
+              "createdAt": "2023-11-06T14:00:52Z",
+              "updatedAt": "2023-11-06T14:00:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mPKnQ",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "yogeshbdeshpande",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T14:02:42Z",
+          "updatedAt": "2023-11-06T14:02:43Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "We must state something about a default configuration that brings up the `append only log` managed by the Transparency Service. Once the Service is up and running the default configuration can be modified.",
+              "createdAt": "2023-11-06T14:02:42Z",
+              "updatedAt": "2023-11-06T14:02:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mPNFu",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "yogeshbdeshpande",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T14:07:25Z",
+          "updatedAt": "2023-11-06T14:07:25Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "To make life simple, we should only keep Registration Information as the Element which needs updating, hence instead of using the generic term Configuration, we should adhere to a more specific term known as \r\n`Registration Policy` which is an updatable element.",
+              "createdAt": "2023-11-06T14:07:25Z",
+              "updatedAt": "2023-11-06T14:08:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mPRGa",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "yogeshbdeshpande",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T14:13:55Z",
+          "updatedAt": "2023-11-06T14:13:56Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "This comment is ONLY applicable if-we stick to the original definition of the `Configuration` which I strongly believe we should avoid.",
+              "createdAt": "2023-11-06T14:13:55Z",
+              "updatedAt": "2023-11-06T14:13:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mPpnE",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T14:44:03Z",
+          "updatedAt": "2023-11-06T14:44:03Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "When I first read the inserted line 624 for \"Designated authorized...\" I thought it touches on RBAC, which we left to the implementation-specific area. \r\nAre you suggesting there's a registration policy for which issuers can submit changes to the registration policy?\r\nIt's kinda obvious that writes should be RBAC controlled, and configuration MUST be controlled. So we could call it out, or leave all RBAC out of the spec.  ",
+              "createdAt": "2023-11-06T14:44:03Z",
+              "updatedAt": "2023-11-06T14:44:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mPq1m",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T14:46:20Z",
+          "updatedAt": "2023-11-06T14:46:20Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "This is an interesting question, whether we reference the Signed Statement before or after it's written. \r\n...records its configuration... could infer the signed statement is being submitted, becoming a transparent statement.\r\nIs there a strong opinion either way?",
+              "createdAt": "2023-11-06T14:46:20Z",
+              "updatedAt": "2023-11-06T14:46:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mP1kj",
+          "commit": {
+            "abbreviatedOid": "5427d83"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T15:03:36Z",
+          "updatedAt": "2023-11-06T15:03:36Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "I was also struggling with the text that referenced ordering. This sounds implementation-specific. I wonder if we should simply say the Transparency Service MUST have a registration and configuration persisted as signed statements. Should how the service is \"booted up\" be outside the specification?",
+              "createdAt": "2023-11-06T15:03:36Z",
+              "updatedAt": "2023-11-06T15:03:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mP4Wx",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T15:08:06Z",
+          "updatedAt": "2023-11-06T15:08:06Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "This was a great discussion during the hackathon. We talked about having multiple statements for configuration, and registration policies allowing a service to put RBAC on who could read the files. We likely needed an aggregated statement to reference the different config and registration policies. This way the receipt would need only one. This is additional content we wanted to follow-up with after this baseline as it introduces more details we wanted to incrementally think through. ",
+              "createdAt": "2023-11-06T15:08:06Z",
+              "updatedAt": "2023-11-06T15:08:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mP5RJ",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T15:09:35Z",
+          "updatedAt": "2023-11-06T15:09:35Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Does anyone have an opinion on changing this PR, or making a separate? In the spirt of merging quickly, and iterating, I'm fine deferring to another PR. ",
+              "createdAt": "2023-11-06T15:09:35Z",
+              "updatedAt": "2023-11-06T15:09:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mP6Dp",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T15:10:46Z",
+          "updatedAt": "2023-11-06T15:10:46Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "@yogeshbdeshpande, are you ok with deferring the additional detail? Please \ud83d\udc4d if you agree.",
+              "createdAt": "2023-11-06T15:10:46Z",
+              "updatedAt": "2023-11-06T15:10:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mP97t",
+          "commit": {
+            "abbreviatedOid": "5427d83"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T15:17:39Z",
+          "updatedAt": "2023-11-06T15:17:39Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "tracked in #127 to avoid blocking the merge",
+              "createdAt": "2023-11-06T15:17:39Z",
+              "updatedAt": "2023-11-06T15:17:40Z"
             }
           ]
         }
