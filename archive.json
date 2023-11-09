@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-07T00:34:47.788860+00:00",
+  "timestamp": "2023-11-09T00:34:19.207116+00:00",
   "repo": "ietf-wg-scitt/draft-ietf-scitt-architecture",
   "labels": [
     {
@@ -13519,7 +13519,7 @@
       "labels": [],
       "body": "Extending the architecture with Transparent Statements recording the Transparency Service configuration, notably its registration policy. The syntax of the configuration (notably its supported registration policies) are still TBC.  ",
       "createdAt": "2023-11-05T11:25:51Z",
-      "updatedAt": "2023-11-06T15:17:39Z",
+      "updatedAt": "2023-11-08T09:07:26Z",
       "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
       "baseRefName": "main",
       "baseRefOid": "d0fb2231337ef6b4c499b98e585e86a5adf7013b",
@@ -13960,6 +13960,66 @@
               "body": "tracked in #127 to avoid blocking the merge",
               "createdAt": "2023-11-06T15:17:39Z",
               "updatedAt": "2023-11-06T15:17:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mgRLI",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "fournet",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-08T09:03:14Z",
+          "updatedAt": "2023-11-08T09:03:14Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "I agree policy statements are issued by authorized parties, but this seems implementation-specific and I don't think we need to give any details on their authorization here. Hence \"Designated authorised entities\" seems too strong. ",
+              "createdAt": "2023-11-08T09:03:14Z",
+              "updatedAt": "2023-11-08T09:03:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mgSMu",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "fournet",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-08T09:05:23Z",
+          "updatedAt": "2023-11-08T09:05:23Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "As usual, what matters for most parties are (signed) transparent statements. In particular, we must reference configuration statements once registered, to ensure they are transparent before they are used for further registrations.",
+              "createdAt": "2023-11-08T09:05:23Z",
+              "updatedAt": "2023-11-08T09:05:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5mgTqr",
+          "commit": {
+            "abbreviatedOid": "62f4605"
+          },
+          "author": "fournet",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-08T09:07:25Z",
+          "updatedAt": "2023-11-08T09:07:26Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "The default configuration before registering the first configuration is entirely implementation specific (it just needs to explain how the first explicit configuration is authorized and registered) so I don't think there is much to say about it. ",
+              "createdAt": "2023-11-08T09:07:26Z",
+              "updatedAt": "2023-11-08T09:07:26Z"
             }
           ]
         }
