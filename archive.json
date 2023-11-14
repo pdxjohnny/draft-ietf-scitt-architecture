@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-12T00:37:34.521673+00:00",
+  "timestamp": "2023-11-14T00:34:53.462296+00:00",
   "repo": "ietf-wg-scitt/draft-ietf-scitt-architecture",
   "labels": [
     {
@@ -2045,7 +2045,7 @@
       ],
       "body": "This issue tracks initial work to be completed regarding profiling of COSE to support federation for SCITT.\r\n\r\n\r\nSome initial topics that still need to be addressed:\r\n\r\n- How do transparency services discovery each other?\r\n- How do they know if their policies are compatible?\r\n- How do they know if they support the same issuers? \r\n- How do they know if they support the same artifact types?\r\n- How is issuer privacy impacted by federation? ",
       "createdAt": "2023-07-08T12:39:47Z",
-      "updatedAt": "2023-11-09T10:58:39Z",
+      "updatedAt": "2023-11-13T21:54:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -2072,9 +2072,9 @@
         {
           "author": "pdxjohnny",
           "authorAssociation": "NONE",
-          "body": "Some options for Federation:\r\n\r\n- https://www.w3.org/TR/activitypub/\r\n  - Pros\r\n    - Existing Adoption\r\n  - Cons\r\n    - Not sure if built with confidentiality as first thing in mind, not sure if this matters if the point is transparency\r\n- [WireFederation_0_0_4.pdf](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/files/13273496/WireFederation_0_0_4.pdf)\r\n  - Pros\r\n    - IETF Adjacent?\r\n  - Cons\r\n    - Pre-v1\r\n\r\nIt could be interesting for SCITT services to declare federation protocols they support via exported service parameters. Different instances my have different threat models and require different levels of assurance around CIA properties of federation protocols.\r\n\r\n- #96\r\n\r\n```yaml\r\nfederation:\r\n- protocol: activitypub\r\n  # Actor to follow to receive events for any statement (subject `*`)\r\n  everything: allsubjects\r\n```",
+          "body": "Some options for Federation:\r\n\r\n- https://www.w3.org/TR/activitypub/\r\n  - Pros\r\n    - Existing Adoption\r\n  - Cons\r\n    - Not sure if built with confidentiality as first thing in mind, not sure if this matters if the point is transparency\r\n- [WireFederation_0_0_4.pdf](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/files/13273496/WireFederation_0_0_4.pdf)\r\n  - Pros\r\n    - IETF Adjacent?\r\n  - Cons\r\n    - Pre-v1\r\n\r\nIt could be interesting for SCITT services to declare federation protocols they support via exported service parameters. Different instances my have different threat models and require different levels of assurance around CIA properties of federation protocols.\r\n\r\n- #96\r\n\r\n```yaml\r\nfederation:\r\n- protocol: activitypub\r\n  # Actor to follow to receive events for any statement (subject `*`)\r\n  everything: allsubjects\r\n```\r\n\r\n- How do transparency services discover each other?\r\n  - Enable multiple options for discovery\r\n  - For services an instance federates with they can choose if they want to be exported as options\r\n    - See notes later on privacy and subsequent federations policy\r\n\r\n- How do they know if their policies are compatible?\r\n  - At the IETF 118 hackathon we discussed labeled property graphs\r\n\r\n- How do they know if they support the same issuers?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How do they know if they support the same artifact types?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How is issuer privacy impacted by federation?\r\n  - Depends on selected federation protocol\r\n    - Additional policy in place around federation\r\n      - Levels of assurance in execution of subsequent federations policy\r\n        - TEE, etc.\r\n  - Depends on deployment context\r\n",
           "createdAt": "2023-11-06T23:19:17Z",
-          "updatedAt": "2023-11-09T10:58:39Z"
+          "updatedAt": "2023-11-13T21:54:45Z"
         }
       ]
     },
@@ -13519,7 +13519,7 @@
       "labels": [],
       "body": "Extending the architecture with Transparent Statements recording the Transparency Service configuration, notably its registration policy. The syntax of the configuration (notably its supported registration policies) are still TBC.  ",
       "createdAt": "2023-11-05T11:25:51Z",
-      "updatedAt": "2023-11-08T09:07:26Z",
+      "updatedAt": "2023-11-14T00:09:40Z",
       "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
       "baseRefName": "main",
       "baseRefOid": "d0fb2231337ef6b4c499b98e585e86a5adf7013b",
@@ -14022,6 +14022,19 @@
               "updatedAt": "2023-11-08T09:07:26Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5nBnLD",
+          "commit": {
+            "abbreviatedOid": "5427d83"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-14T00:09:40Z",
+          "updatedAt": "2023-11-14T00:09:40Z",
+          "comments": []
         }
       ]
     }
