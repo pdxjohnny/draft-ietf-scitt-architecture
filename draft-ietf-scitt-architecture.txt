@@ -10,7 +10,7 @@ Expires: 17 May 2024                                          C. Fournet
                                                             Y. Deshpande
                                                                      ARM
                                                                S. Lasker
-                                                                   RKVST
+                                                              DataTrails
                                                         14 November 2023
 
 
@@ -2144,7 +2144,7 @@ Authors' Addresses
 
 
    Steve Lasker
-   RKVST
+   DataTrails
    Seattle,
    United States
-   Email: steve.lasker@rkvst.com
+   Email: steve.lasker@datatrails.ai
