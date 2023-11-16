@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-14T00:34:53.462296+00:00",
+  "timestamp": "2023-11-16T00:36:00.889405+00:00",
   "repo": "ietf-wg-scitt/draft-ietf-scitt-architecture",
   "labels": [
     {
@@ -2045,7 +2045,7 @@
       ],
       "body": "This issue tracks initial work to be completed regarding profiling of COSE to support federation for SCITT.\r\n\r\n\r\nSome initial topics that still need to be addressed:\r\n\r\n- How do transparency services discovery each other?\r\n- How do they know if their policies are compatible?\r\n- How do they know if they support the same issuers? \r\n- How do they know if they support the same artifact types?\r\n- How is issuer privacy impacted by federation? ",
       "createdAt": "2023-07-08T12:39:47Z",
-      "updatedAt": "2023-11-13T21:54:45Z",
+      "updatedAt": "2023-11-15T22:49:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -2072,9 +2072,9 @@
         {
           "author": "pdxjohnny",
           "authorAssociation": "NONE",
-          "body": "Some options for Federation:\r\n\r\n- https://www.w3.org/TR/activitypub/\r\n  - Pros\r\n    - Existing Adoption\r\n  - Cons\r\n    - Not sure if built with confidentiality as first thing in mind, not sure if this matters if the point is transparency\r\n- [WireFederation_0_0_4.pdf](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/files/13273496/WireFederation_0_0_4.pdf)\r\n  - Pros\r\n    - IETF Adjacent?\r\n  - Cons\r\n    - Pre-v1\r\n\r\nIt could be interesting for SCITT services to declare federation protocols they support via exported service parameters. Different instances my have different threat models and require different levels of assurance around CIA properties of federation protocols.\r\n\r\n- #96\r\n\r\n```yaml\r\nfederation:\r\n- protocol: activitypub\r\n  # Actor to follow to receive events for any statement (subject `*`)\r\n  everything: allsubjects\r\n```\r\n\r\n- How do transparency services discover each other?\r\n  - Enable multiple options for discovery\r\n  - For services an instance federates with they can choose if they want to be exported as options\r\n    - See notes later on privacy and subsequent federations policy\r\n\r\n- How do they know if their policies are compatible?\r\n  - At the IETF 118 hackathon we discussed labeled property graphs\r\n\r\n- How do they know if they support the same issuers?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How do they know if they support the same artifact types?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How is issuer privacy impacted by federation?\r\n  - Depends on selected federation protocol\r\n    - Additional policy in place around federation\r\n      - Levels of assurance in execution of subsequent federations policy\r\n        - TEE, etc.\r\n  - Depends on deployment context\r\n",
+          "body": "Some options for Federation:\r\n\r\n- https://www.w3.org/TR/activitypub/\r\n  - Pros\r\n    - Existing Adoption\r\n  - Cons\r\n    - Not sure if built with confidentiality as first thing in mind, not sure if this matters if the point is transparency\r\n- [WireFederation_0_0_4.pdf](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/files/13273496/WireFederation_0_0_4.pdf)\r\n  - Pros\r\n    - IETF Adjacent?\r\n  - Cons\r\n    - Pre-v1\r\n- https://github.com/decentralized-identity/decentralized-web-node\r\n  - Pros\r\n    - \"Web5\" ecosystem\r\n  - Cons\r\n    - They decided to go with a non-browser native approach, requires an extension\r\n    - Heavily influenced by $$$\r\n\r\nIt could be interesting for SCITT services to declare federation protocols they support via exported service parameters. Different instances my have different threat models and require different levels of assurance around CIA properties of federation protocols.\r\n\r\n- #96\r\n\r\n```yaml\r\nfederation:\r\n- protocol: activitypub\r\n  # Actor to follow to receive events for any statement (subject `*`)\r\n  everything: allsubjects\r\n```\r\n\r\n- How do transparency services discover each other?\r\n  - Enable multiple options for discovery\r\n  - For services an instance federates with they can choose if they want to be exported as options\r\n    - See notes later on privacy and subsequent federations policy\r\n\r\n- How do they know if their policies are compatible?\r\n  - At the IETF 118 hackathon we discussed labeled property graphs\r\n\r\n- How do they know if they support the same issuers?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How do they know if they support the same artifact types?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How is issuer privacy impacted by federation?\r\n  - Depends on selected federation protocol\r\n    - Additional policy in place around federation\r\n      - Levels of assurance in execution of subsequent federations policy\r\n        - TEE, etc.\r\n  - Depends on deployment context\r\n",
           "createdAt": "2023-11-06T23:19:17Z",
-          "updatedAt": "2023-11-13T21:54:45Z"
+          "updatedAt": "2023-11-15T22:49:13Z"
         }
       ]
     },
@@ -2821,7 +2821,7 @@
       "labels": [],
       "body": "```\r\nstatement -> receipt\r\nstatement + receipt => transparent statement^1\r\ntransparent statement -> receipt\r\ntransparent statement + receipt => transparent statement^2\r\n...\r\n```\r\n\r\nThere are cases where you want to drop all unprotected data from the signed statement before the registration policy will be applied, and cases where you really want to preserve those unprotected data elements so that the registration policy can be applied.\r\n\r\nWe need to describe transparent statement inception in detail and comment on its correct usage (and its nonsensical usage).\r\n",
       "createdAt": "2023-10-25T16:26:36Z",
-      "updatedAt": "2023-10-25T16:33:01Z",
+      "updatedAt": "2023-11-14T22:57:11Z",
       "closedAt": null,
       "comments": [
         {
@@ -2830,6 +2830,13 @@
           "body": "we use code like this, to pull the receipts from the transparent statement, and then we assume that the entry will always have an empty map as its unprotected header... thats not a great assumption, based on the current draft text.\r\n\r\n```ts\r\nexport const getEntryReceipts = ({ transparentStatement }: RequestEntryReceipts) => {\r\n  const decoded = cbor.decode(transparentStatement)\r\n  let unprotectedHeader = decoded.value[1]\r\n  if (!(unprotectedHeader instanceof Map)) {\r\n    unprotectedHeader = new Map()\r\n  }\r\n  const receipts = unprotectedHeader.get(tags.scitt_receipt) || []\r\n  decoded.value[1] = new Map()\r\n  const entry = cbor.encode(decoded)\r\n  return { entry, receipts }\r\n}\r\n```",
           "createdAt": "2023-10-25T16:33:00Z",
           "updatedAt": "2023-10-25T16:33:00Z"
+        },
+        {
+          "author": "aj-stein-nist",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> We need to describe transparent statement inception in detail and comment on its correct usage (and its nonsensical usage).\r\n\r\nSo how does this happen in the architecture document, is it not an implementation detail? I have become cautious with systems that have unbounded recursion and want sensible limits on \"depth.\" Is that something 1) the group is accepting of 2) even we agree upon it belongs in the architecture doc and not somewhere else?",
+          "createdAt": "2023-11-14T22:57:11Z",
+          "updatedAt": "2023-11-14T22:57:11Z"
         }
       ]
     },
@@ -2864,6 +2871,30 @@
       "updatedAt": "2023-11-06T15:16:45Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 128,
+      "id": "I_kwDOIvmHss52yv6N",
+      "title": "Update Diagrams",
+      "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/128",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "It would be nice to show that a single signed statement can have multiple receipts.... and elaborate on what \"transparent statement\" means when multiple receipts are present.\r\n\r\n```mermaid\r\nflowchart\r\n    transparency_service_1(Transparency Service 1)\r\n    transparency_service_2(Transparency Service 2)\r\n    transparent_statement(transparent statement) \r\n\r\n    signed_statement[signed statement]\r\n\r\n    signed_statement --> transparency_service_1\r\n    signed_statement --> transparency_service_2\r\n    transparency_service_1 --> receipt_1{{receipt 1}}\r\n    transparency_service_2 --> receipt_2{{receipt 2}}\r\n    signed_statement -.-> transparent_statement\r\n    receipt_1 --> transparent_statement\r\n    receipt_2 --> transparent_statement\r\n```\r\n\r\nIt would be nice to show that a single transparent statements can be split out into a single signed statement and at least 1 receipt.\r\n\r\n```mermaid\r\nflowchart\r\n    transparent_statement(transparent statement) \r\n    transparent_statement --> signed_statement(signed statement)\r\n    transparent_statement --> receipt_1{{receipt 1}}\r\n    transparent_statement --> receipt_2{{receipt 2}}\r\n    transparent_statement --> receipt_3{{receipt 3}}\r\n```",
+      "createdAt": "2023-11-14T15:44:56Z",
+      "updatedAt": "2023-11-15T22:02:04Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Here is a markdown snippet that could be modified to clarify multiple receipts:\r\n\r\n```\r\n~~~~aasvg\r\n      Dependencies        Malicious 3rd-party package or version\r\n           |\r\n           |\r\n     +-----+-----+\r\n     |           |\r\n     |   Code    |        Compromise source control\r\n     |           |\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |        Malicious plug-ins;\r\n     |  Commit   |        Malicious commit\r\n     |           |\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |        Modify build tasks or build environment;\r\n     |   Build   |        Poison build agent/compiler;\r\n     |           |        Tamper with build cache\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |        Compromise test tools;\r\n     |    Test   |        Falsification of test results\r\n     |           |\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |        Use bad package;\r\n     |  Package  |        Compromise package repository\r\n     |           |\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |        Modify release tasks;\r\n     |  Release  |        Modify build drop prior to release\r\n     |           |\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |\r\n     |  Deploy   |        Tamper with versioning and update process\r\n     |           |\r\n     +-----------+\r\n~~~~\r\n{: #lifecycle-threats title=\"Example Lifecycle Threats\"}\r\n```",
+          "createdAt": "2023-11-15T22:02:04Z",
+          "updatedAt": "2023-11-15T22:02:04Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -13512,24 +13543,26 @@
       "id": "PR_kwDOIvmHss5enZwL",
       "title": "Transparency Service configurations and policies (IETF118 hackathon)",
       "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/126",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "fournet",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Extending the architecture with Transparent Statements recording the Transparency Service configuration, notably its registration policy. The syntax of the configuration (notably its supported registration policies) are still TBC.  ",
       "createdAt": "2023-11-05T11:25:51Z",
-      "updatedAt": "2023-11-14T00:09:40Z",
+      "updatedAt": "2023-11-14T15:43:31Z",
       "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
       "baseRefName": "main",
       "baseRefOid": "d0fb2231337ef6b4c499b98e585e86a5adf7013b",
       "headRepository": "fournet/draft-ietf-scitt-architecture",
       "headRefName": "configuration",
       "headRefOid": "5427d83077fec440d1f47f68489d783c39dddc88",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2023-11-14T15:43:31Z",
+      "mergedAt": "2023-11-14T15:43:31Z",
+      "mergedBy": "SteveLasker",
+      "mergeCommit": {
+        "oid": "867f321ea190119e909ddb8b2d5394473c3d8b74"
+      },
       "comments": [],
       "reviews": [
         {
@@ -14035,8 +14068,142 @@
           "createdAt": "2023-11-14T00:09:40Z",
           "updatedAt": "2023-11-14T00:09:40Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOIvmHss5nFChb",
+          "commit": {
+            "abbreviatedOid": "5427d83"
+          },
+          "author": "ad-l",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-14T10:09:36Z",
+          "updatedAt": "2023-11-14T10:09:36Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOIvmHss5nHnYw",
+          "commit": {
+            "abbreviatedOid": "5427d83"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-14T15:38:25Z",
+          "updatedAt": "2023-11-14T15:38:25Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Editors meeting discussion: Signed Statement refers to a configuration that doesn't prove it was placed into the transparency service. \r\nThere's a good discussion whether we should use Transparent Statement or Receipt as the term for referencing something that was registered (notarized). However, we should track that separately. \r\nFor this PR, it's important to recognize the configuration was registered, making \"signed statement\" too early and incorrect.",
+              "createdAt": "2023-11-14T15:38:25Z",
+              "updatedAt": "2023-11-14T15:38:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5nHnxN",
+          "commit": {
+            "abbreviatedOid": "5427d83"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-14T15:39:07Z",
+          "updatedAt": "2023-11-14T15:39:08Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "@yogeshbdeshpande, please open a new issue/pr if you feel there is missing info. ",
+              "createdAt": "2023-11-14T15:39:08Z",
+              "updatedAt": "2023-11-14T15:39:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5nHoP_",
+          "commit": {
+            "abbreviatedOid": "5427d83"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-14T15:40:02Z",
+          "updatedAt": "2023-11-14T15:40:02Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Editors call: RBAC is out of scope. Please open a new issue/pr if more discussion is needed. ",
+              "createdAt": "2023-11-14T15:40:02Z",
+              "updatedAt": "2023-11-14T15:40:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5nHokl",
+          "commit": {
+            "abbreviatedOid": "5427d83"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-14T15:40:38Z",
+          "updatedAt": "2023-11-14T15:40:39Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "@yogeshbdeshpande, please open a new issue/pr if you feel there is missing info.",
+              "createdAt": "2023-11-14T15:40:39Z",
+              "updatedAt": "2023-11-14T15:40:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOIvmHss5nHoz4",
+          "commit": {
+            "abbreviatedOid": "5427d83"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-14T15:41:05Z",
+          "updatedAt": "2023-11-14T15:41:05Z",
+          "comments": []
         }
       ]
+    },
+    {
+      "number": 129,
+      "id": "PR_kwDOIvmHss5fdj8y",
+      "title": "Update RKVST branding to DataTrails",
+      "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/129",
+      "state": "MERGED",
+      "author": "SteveLasker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "RKVST has re-branded to DataTrails. Update to reflect my new email and company branding. ",
+      "createdAt": "2023-11-14T22:42:16Z",
+      "updatedAt": "2023-11-14T22:42:25Z",
+      "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "867f321ea190119e909ddb8b2d5394473c3d8b74",
+      "headRepository": "SteveLasker/draft-ietf-scitt-architecture",
+      "headRefName": "stevelasker-companynamechange",
+      "headRefOid": "4ae3c5573211721875f45d304be5e166d55573e8",
+      "closedAt": "2023-11-14T22:42:25Z",
+      "mergedAt": "2023-11-14T22:42:25Z",
+      "mergedBy": "SteveLasker",
+      "mergeCommit": {
+        "oid": "930a0cd38a92dd6079bda2ed3c675019ee9b0aa3"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
