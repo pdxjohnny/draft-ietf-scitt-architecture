@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-16T00:36:00.889405+00:00",
+  "timestamp": "2023-11-19T00:38:29.937904+00:00",
   "repo": "ietf-wg-scitt/draft-ietf-scitt-architecture",
   "labels": [
     {
@@ -2821,7 +2821,7 @@
       "labels": [],
       "body": "```\r\nstatement -> receipt\r\nstatement + receipt => transparent statement^1\r\ntransparent statement -> receipt\r\ntransparent statement + receipt => transparent statement^2\r\n...\r\n```\r\n\r\nThere are cases where you want to drop all unprotected data from the signed statement before the registration policy will be applied, and cases where you really want to preserve those unprotected data elements so that the registration policy can be applied.\r\n\r\nWe need to describe transparent statement inception in detail and comment on its correct usage (and its nonsensical usage).\r\n",
       "createdAt": "2023-10-25T16:26:36Z",
-      "updatedAt": "2023-11-14T22:57:11Z",
+      "updatedAt": "2023-11-16T01:38:33Z",
       "closedAt": null,
       "comments": [
         {
@@ -2837,6 +2837,13 @@
           "body": "> We need to describe transparent statement inception in detail and comment on its correct usage (and its nonsensical usage).\r\n\r\nSo how does this happen in the architecture document, is it not an implementation detail? I have become cautious with systems that have unbounded recursion and want sensible limits on \"depth.\" Is that something 1) the group is accepting of 2) even we agree upon it belongs in the architecture doc and not somewhere else?",
           "createdAt": "2023-11-14T22:57:11Z",
           "updatedAt": "2023-11-14T22:57:11Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This issue is also related the concept of binding the registration policy to the signed statement... You might set the registration policy as an unprotected header property before adding the signed statement to the log... You will encounter a similar issue.\n\nThe problem with unprotected headers, is that they are not protected, so they can contain extra data, such as receipts or registration policies... And a transparency service can strip that stuff out, or inject it, before adding the signed statement to the log.... Tampering with the unprotected header doesn't break the signature, but it does break the inclusion proofs, because it breaks the hash of the entry.",
+          "createdAt": "2023-11-16T01:38:33Z",
+          "updatedAt": "2023-11-16T01:38:33Z"
         }
       ]
     },
@@ -2884,7 +2891,7 @@
       "labels": [],
       "body": "It would be nice to show that a single signed statement can have multiple receipts.... and elaborate on what \"transparent statement\" means when multiple receipts are present.\r\n\r\n```mermaid\r\nflowchart\r\n    transparency_service_1(Transparency Service 1)\r\n    transparency_service_2(Transparency Service 2)\r\n    transparent_statement(transparent statement) \r\n\r\n    signed_statement[signed statement]\r\n\r\n    signed_statement --> transparency_service_1\r\n    signed_statement --> transparency_service_2\r\n    transparency_service_1 --> receipt_1{{receipt 1}}\r\n    transparency_service_2 --> receipt_2{{receipt 2}}\r\n    signed_statement -.-> transparent_statement\r\n    receipt_1 --> transparent_statement\r\n    receipt_2 --> transparent_statement\r\n```\r\n\r\nIt would be nice to show that a single transparent statements can be split out into a single signed statement and at least 1 receipt.\r\n\r\n```mermaid\r\nflowchart\r\n    transparent_statement(transparent statement) \r\n    transparent_statement --> signed_statement(signed statement)\r\n    transparent_statement --> receipt_1{{receipt 1}}\r\n    transparent_statement --> receipt_2{{receipt 2}}\r\n    transparent_statement --> receipt_3{{receipt 3}}\r\n```",
       "createdAt": "2023-11-14T15:44:56Z",
-      "updatedAt": "2023-11-15T22:02:04Z",
+      "updatedAt": "2023-11-16T02:42:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -2893,6 +2900,13 @@
           "body": "Here is a markdown snippet that could be modified to clarify multiple receipts:\r\n\r\n```\r\n~~~~aasvg\r\n      Dependencies        Malicious 3rd-party package or version\r\n           |\r\n           |\r\n     +-----+-----+\r\n     |           |\r\n     |   Code    |        Compromise source control\r\n     |           |\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |        Malicious plug-ins;\r\n     |  Commit   |        Malicious commit\r\n     |           |\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |        Modify build tasks or build environment;\r\n     |   Build   |        Poison build agent/compiler;\r\n     |           |        Tamper with build cache\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |        Compromise test tools;\r\n     |    Test   |        Falsification of test results\r\n     |           |\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |        Use bad package;\r\n     |  Package  |        Compromise package repository\r\n     |           |\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |        Modify release tasks;\r\n     |  Release  |        Modify build drop prior to release\r\n     |           |\r\n     +-----+-----+\r\n           |\r\n     +-----+-----+\r\n     |           |\r\n     |  Deploy   |        Tamper with versioning and update process\r\n     |           |\r\n     +-----------+\r\n~~~~\r\n{: #lifecycle-threats title=\"Example Lifecycle Threats\"}\r\n```",
           "createdAt": "2023-11-15T22:02:04Z",
           "updatedAt": "2023-11-15T22:02:04Z"
+        },
+        {
+          "author": "aj-stein-nist",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "But we have to turn it into a positive case (multiple receipts confirming the same artifacts) not the negative (not so happy path) case, yes? This is is easy, I can add.\r\n\r\n> Here is a markdown snippet that could be modified to clarify multiple receipts:\r\n> ...\r\n",
+          "createdAt": "2023-11-16T02:42:40Z",
+          "updatedAt": "2023-11-16T02:42:40Z"
         }
       ]
     }
