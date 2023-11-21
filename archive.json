@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-19T00:38:29.937904+00:00",
+  "timestamp": "2023-11-21T00:36:26.174863+00:00",
   "repo": "ietf-wg-scitt/draft-ietf-scitt-architecture",
   "labels": [
     {
@@ -2045,7 +2045,7 @@
       ],
       "body": "This issue tracks initial work to be completed regarding profiling of COSE to support federation for SCITT.\r\n\r\n\r\nSome initial topics that still need to be addressed:\r\n\r\n- How do transparency services discovery each other?\r\n- How do they know if their policies are compatible?\r\n- How do they know if they support the same issuers? \r\n- How do they know if they support the same artifact types?\r\n- How is issuer privacy impacted by federation? ",
       "createdAt": "2023-07-08T12:39:47Z",
-      "updatedAt": "2023-11-15T22:49:13Z",
+      "updatedAt": "2023-11-20T16:06:35Z",
       "closedAt": null,
       "comments": [
         {
@@ -2072,9 +2072,9 @@
         {
           "author": "pdxjohnny",
           "authorAssociation": "NONE",
-          "body": "Some options for Federation:\r\n\r\n- https://www.w3.org/TR/activitypub/\r\n  - Pros\r\n    - Existing Adoption\r\n  - Cons\r\n    - Not sure if built with confidentiality as first thing in mind, not sure if this matters if the point is transparency\r\n- [WireFederation_0_0_4.pdf](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/files/13273496/WireFederation_0_0_4.pdf)\r\n  - Pros\r\n    - IETF Adjacent?\r\n  - Cons\r\n    - Pre-v1\r\n- https://github.com/decentralized-identity/decentralized-web-node\r\n  - Pros\r\n    - \"Web5\" ecosystem\r\n  - Cons\r\n    - They decided to go with a non-browser native approach, requires an extension\r\n    - Heavily influenced by $$$\r\n\r\nIt could be interesting for SCITT services to declare federation protocols they support via exported service parameters. Different instances my have different threat models and require different levels of assurance around CIA properties of federation protocols.\r\n\r\n- #96\r\n\r\n```yaml\r\nfederation:\r\n- protocol: activitypub\r\n  # Actor to follow to receive events for any statement (subject `*`)\r\n  everything: allsubjects\r\n```\r\n\r\n- How do transparency services discover each other?\r\n  - Enable multiple options for discovery\r\n  - For services an instance federates with they can choose if they want to be exported as options\r\n    - See notes later on privacy and subsequent federations policy\r\n\r\n- How do they know if their policies are compatible?\r\n  - At the IETF 118 hackathon we discussed labeled property graphs\r\n\r\n- How do they know if they support the same issuers?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How do they know if they support the same artifact types?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How is issuer privacy impacted by federation?\r\n  - Depends on selected federation protocol\r\n    - Additional policy in place around federation\r\n      - Levels of assurance in execution of subsequent federations policy\r\n        - TEE, etc.\r\n  - Depends on deployment context\r\n",
+          "body": "Related SCRAPI section: https://github.com/ietf-scitt/draft-birkholz-scitt-scrapi/blob/b0ee171a26d634a8f54eb46779dcd023ccdf2a63/draft-birkholz-scitt-scrapi.md#discovering-federation\r\n\r\nSome options for Federation:\r\n\r\n- https://www.w3.org/TR/activitypub/\r\n  - Pros\r\n    - Existing Adoption\r\n  - Cons\r\n    - Not sure if built with confidentiality as first thing in mind, not sure if this matters if the point is transparency\r\n- [WireFederation_0_0_4.pdf](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/files/13273496/WireFederation_0_0_4.pdf)\r\n  - Pros\r\n    - IETF Adjacent?\r\n  - Cons\r\n    - Pre-v1\r\n- https://github.com/decentralized-identity/decentralized-web-node\r\n  - Pros\r\n    - \"Web5\" ecosystem\r\n  - Cons\r\n    - They decided to go with a non-browser native approach, requires an extension\r\n    - Heavily influenced by $$$\r\n- https://openfl.readthedocs.io/en/latest/source/openfl/communication.html - https://github.com/securefederatedai/openfl/blob/develop/docs/overview.what_is_intel_federated_learning.rst\r\n  - Pros\r\n    - Feeds right into ML\r\n  - Cons\r\n    - TODO\r\n\r\nIt could be interesting for SCITT services to declare federation protocols they support via exported service parameters. Different instances my have different threat models and require different levels of assurance around CIA properties of federation protocols.\r\n\r\n- https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/96#issuecomment-1817770016\r\n\r\n```yaml\r\nfederation:\r\n- protocol: activitypub\r\n  # Actor to follow to receive events for any statement (subject `*`)\r\n  everything: allsubjects\r\n```\r\n\r\n- How do transparency services discover each other?\r\n  - Enable multiple options for discovery\r\n  - For services an instance federates with they can choose if they want to be exported as options\r\n    - See notes later on privacy and subsequent federations policy\r\n\r\n- How do they know if their policies are compatible?\r\n  - At the IETF 118 hackathon we discussed labeled property graphs\r\n\r\n- How do they know if they support the same issuers?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How do they know if they support the same artifact types?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How is issuer privacy impacted by federation?\r\n  - Depends on selected federation protocol\r\n    - Additional policy in place around federation\r\n      - Levels of assurance in execution of subsequent federations policy\r\n        - TEE, etc.\r\n  - Depends on deployment context",
           "createdAt": "2023-11-06T23:19:17Z",
-          "updatedAt": "2023-11-15T22:49:13Z"
+          "updatedAt": "2023-11-20T16:06:35Z"
         }
       ]
     },
@@ -2427,7 +2427,7 @@
       "labels": [],
       "body": "Knowledge of SCITT's tree algorithm and parameters for that tree algorithm are required for a client to verify receipts. It seems like we need to have an endpoint to enable discovery of those parameters.",
       "createdAt": "2023-09-12T14:18:47Z",
-      "updatedAt": "2023-11-06T09:07:19Z",
+      "updatedAt": "2023-11-19T07:10:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -2450,6 +2450,13 @@
           "body": "After discussion this weekend with Steven and Cedric we talked about needing an endpoint for service parameter discovery. This also appears necessary for federation.",
           "createdAt": "2023-11-06T09:06:22Z",
           "updatedAt": "2023-11-06T09:07:13Z"
+        },
+        {
+          "author": "pdxjohnny",
+          "authorAssociation": "NONE",
+          "body": "The document currently states:\r\n\r\n> The Transparency Service provides an endpoint that returns the Transparent Statement that describes its current configuration.\"\r\n>\r\n> The Transparency Service records its configuration in the Append-Only Log using Transparent Statements with distinguished media type `application/scitt-configuration`.\r\n>\r\n> From: https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/blob/930a0cd38a92dd6079bda2ed3c675019ee9b0aa3/draft-ietf-scitt-architecture.md#configuration\r\n\r\nPining based on #126 discussion comments: @fournet, @SteveLasker: I read this to mean the endpoint is a subject/feed, what is that subject/feed? Is it the issuer `did:web:` combined with the mentioned media type? How should we register these so that they are discoverable in a consistent way?",
+          "createdAt": "2023-11-19T07:10:55Z",
+          "updatedAt": "2023-11-19T07:10:55Z"
         }
       ]
     },
