@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-21T00:36:26.174863+00:00",
+  "timestamp": "2023-11-23T00:35:39.763135+00:00",
   "repo": "ietf-wg-scitt/draft-ietf-scitt-architecture",
   "labels": [
     {
@@ -2045,7 +2045,7 @@
       ],
       "body": "This issue tracks initial work to be completed regarding profiling of COSE to support federation for SCITT.\r\n\r\n\r\nSome initial topics that still need to be addressed:\r\n\r\n- How do transparency services discovery each other?\r\n- How do they know if their policies are compatible?\r\n- How do they know if they support the same issuers? \r\n- How do they know if they support the same artifact types?\r\n- How is issuer privacy impacted by federation? ",
       "createdAt": "2023-07-08T12:39:47Z",
-      "updatedAt": "2023-11-20T16:06:35Z",
+      "updatedAt": "2023-11-21T17:22:12Z",
       "closedAt": null,
       "comments": [
         {
@@ -2075,6 +2075,13 @@
           "body": "Related SCRAPI section: https://github.com/ietf-scitt/draft-birkholz-scitt-scrapi/blob/b0ee171a26d634a8f54eb46779dcd023ccdf2a63/draft-birkholz-scitt-scrapi.md#discovering-federation\r\n\r\nSome options for Federation:\r\n\r\n- https://www.w3.org/TR/activitypub/\r\n  - Pros\r\n    - Existing Adoption\r\n  - Cons\r\n    - Not sure if built with confidentiality as first thing in mind, not sure if this matters if the point is transparency\r\n- [WireFederation_0_0_4.pdf](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/files/13273496/WireFederation_0_0_4.pdf)\r\n  - Pros\r\n    - IETF Adjacent?\r\n  - Cons\r\n    - Pre-v1\r\n- https://github.com/decentralized-identity/decentralized-web-node\r\n  - Pros\r\n    - \"Web5\" ecosystem\r\n  - Cons\r\n    - They decided to go with a non-browser native approach, requires an extension\r\n    - Heavily influenced by $$$\r\n- https://openfl.readthedocs.io/en/latest/source/openfl/communication.html - https://github.com/securefederatedai/openfl/blob/develop/docs/overview.what_is_intel_federated_learning.rst\r\n  - Pros\r\n    - Feeds right into ML\r\n  - Cons\r\n    - TODO\r\n\r\nIt could be interesting for SCITT services to declare federation protocols they support via exported service parameters. Different instances my have different threat models and require different levels of assurance around CIA properties of federation protocols.\r\n\r\n- https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/96#issuecomment-1817770016\r\n\r\n```yaml\r\nfederation:\r\n- protocol: activitypub\r\n  # Actor to follow to receive events for any statement (subject `*`)\r\n  everything: allsubjects\r\n```\r\n\r\n- How do transparency services discover each other?\r\n  - Enable multiple options for discovery\r\n  - For services an instance federates with they can choose if they want to be exported as options\r\n    - See notes later on privacy and subsequent federations policy\r\n\r\n- How do they know if their policies are compatible?\r\n  - At the IETF 118 hackathon we discussed labeled property graphs\r\n\r\n- How do they know if they support the same issuers?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How do they know if they support the same artifact types?\r\n  - Policy graph traversal / policy analysis\r\n\r\n- How is issuer privacy impacted by federation?\r\n  - Depends on selected federation protocol\r\n    - Additional policy in place around federation\r\n      - Levels of assurance in execution of subsequent federations policy\r\n        - TEE, etc.\r\n  - Depends on deployment context",
           "createdAt": "2023-11-06T23:19:17Z",
           "updatedAt": "2023-11-20T16:06:35Z"
+        },
+        {
+          "author": "aj-stein-nist",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Thanks for a thorough summary, @pdxjohnny. On the IETF side I am not sure exchanging was intended to mean federation, but in the pub/sub context ROLIE way be partially or wholly useful.\r\n\r\nhttps://datatracker.ietf.org/doc/rfc8322/",
+          "createdAt": "2023-11-21T17:22:12Z",
+          "updatedAt": "2023-11-21T17:22:12Z"
         }
       ]
     },
@@ -2636,7 +2643,7 @@
       ],
       "body": "In section 5.2.3.3 `client` appears out of the blue. It is not clear what a `client` is. ",
       "createdAt": "2023-09-20T07:46:53Z",
-      "updatedAt": "2023-10-24T13:48:24Z",
+      "updatedAt": "2023-11-21T17:59:18Z",
       "closedAt": null,
       "comments": [
         {
@@ -2659,6 +2666,13 @@
           "body": "Thanks, @nikosft \r\nThe above text is from Draft 04: [5.2.3.3. ](https://www.ietf.org/archive/id/draft-ietf-scitt-architecture-04.html#section-5.2.3.3)[Replayability and Auditing](https://www.ietf.org/archive/id/draft-ietf-scitt-architecture-04.html#name-replayability-and-auditing)\r\n\r\nI've labeled it for terminology clarification. ",
           "createdAt": "2023-10-24T13:48:16Z",
           "updatedAt": "2023-10-24T13:48:16Z"
+        },
+        {
+          "author": "aj-stein-nist",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "In that vein, I would support clarifying it with a \"an Issue or Verifier's Transparency Service API client\" in the applicable areas of the draft. Would that be more helpful or does it not reduce ambiguity?",
+          "createdAt": "2023-11-21T17:59:17Z",
+          "updatedAt": "2023-11-21T17:59:17Z"
         }
       ]
     },
@@ -2882,9 +2896,17 @@
       "labels": [],
       "body": "[Line 635](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/126/files#diff-585fb424519b79cf000445f3425fa56d328cbaca5d2a622740ddc4e5ca91dbe1R635) in PR #126 indicates: \r\n\r\n> The configuration `reg_info` SHOULD include a secure version number and a timestamp.\r\n\r\nAs these values are considered critical to the stability of the Transparency Service, I made the [comment \"To avoid rollbacks, we SHOULD likely make this a MUST, specific to configuration.\"](https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/126/files#r1382909297)\r\n\r\nThis issue tracks the proposed change",
       "createdAt": "2023-11-06T15:16:45Z",
-      "updatedAt": "2023-11-06T15:16:45Z",
+      "updatedAt": "2023-11-22T14:31:42Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "aj-stein-nist",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "If we take this proposed change, which one is it?\r\n\r\n> The configuration `reg_info` MUST include a secure version number and a timestamp.\r\n\r\nor\r\n\r\n> The configuration `reg_info` MUST include a secure version number or timestamp.\r\n\r\nI do not really know what a \"secure version number\" could be (do we mean incrementing sequence number?), but just switching SHOULD to MUST and requiring both seems like it could be tedious for the implementer, confusing for a TS Service API client consumer. Barring any guidance, which one is the primary one in the presence of both?",
+          "createdAt": "2023-11-22T14:31:42Z",
+          "updatedAt": "2023-11-22T14:31:42Z"
+        }
+      ]
     },
     {
       "number": 128,
@@ -14223,6 +14245,72 @@
       "mergeCommit": {
         "oid": "930a0cd38a92dd6079bda2ed3c675019ee9b0aa3"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 130,
+      "id": "PR_kwDOIvmHss5gDO8w",
+      "title": "Link to default HTML format for RFC9393 reference",
+      "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/130",
+      "state": "OPEN",
+      "author": "aj-stein-nist",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "A minor nit, but in the current version of the draft only RFC 9393 (COSWID) links to its PDF form, not the default HTML form. It is minor, but hopefully more (eventual) consistency is a good thing.",
+      "createdAt": "2023-11-21T17:47:22Z",
+      "updatedAt": "2023-11-21T20:17:06Z",
+      "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "930a0cd38a92dd6079bda2ed3c675019ee9b0aa3",
+      "headRepository": "aj-stein-nist/draft-ietf-scitt-architecture",
+      "headRefName": "align-rfc-references",
+      "headRefOid": "435689f45ed09cc316a6c6c34b566c6b0262e0af",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOIvmHss5n5B5J",
+          "commit": {
+            "abbreviatedOid": "435689f"
+          },
+          "author": "pdxjohnny",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-21T20:17:06Z",
+          "updatedAt": "2023-11-21T20:17:06Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 131,
+      "id": "PR_kwDOIvmHss5gE06b",
+      "title": "Define Non-equivocation",
+      "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/131",
+      "state": "OPEN",
+      "author": "aj-stein-nist",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Define equivocation and non-equivocation and cite the article that coined the term in analyzing Lamport. Closes ietf-wg-scitt/draft-ietf-scitt-architecture#116.",
+      "createdAt": "2023-11-21T23:10:32Z",
+      "updatedAt": "2023-11-22T14:26:09Z",
+      "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "930a0cd38a92dd6079bda2ed3c675019ee9b0aa3",
+      "headRepository": "aj-stein-nist/draft-ietf-scitt-architecture",
+      "headRefName": "116-non-equivocation",
+      "headRefOid": "2f2e17f6fae10d4c9378e730897c086889c72db5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
