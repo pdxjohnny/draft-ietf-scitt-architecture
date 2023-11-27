@@ -5,13 +5,13 @@
 SCITT                                                        H. Birkholz
 Internet-Draft                                            Fraunhofer SIT
 Intended status: Standards Track                      A. Delignat-Lavaud
-Expires: 17 May 2024                                          C. Fournet
+Expires: 30 May 2024                                          C. Fournet
                                                       Microsoft Research
                                                             Y. Deshpande
                                                                      ARM
                                                                S. Lasker
                                                               DataTrails
-                                                        14 November 2023
+                                                        27 November 2023
 
 
  An Architecture for Trustworthy and Transparent Digital Supply Chains
@@ -68,7 +68,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 May 2024.
+   This Internet-Draft will expire on 30 May 2024.
 
 Copyright Notice
 
@@ -1956,7 +1956,7 @@ Table of Contents
 12.1.  Normative References
 
    [COSWID]   "COSWID Specification", n.d.,
-              <https://www.rfc-editor.org/rfc/rfc9393.pdf>.
+              <https://www.rfc-editor.org/rfc/rfc9393>.
 
    [CWT_CLAIM_COSE]
               "CBOR Web Token (CWT) Claims in COSE Headers", n.d.,
