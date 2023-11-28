@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-26T00:38:12.378139+00:00",
+  "timestamp": "2023-11-28T00:36:18.102963+00:00",
   "repo": "ietf-wg-scitt/draft-ietf-scitt-architecture",
   "labels": [
     {
@@ -2794,7 +2794,7 @@
       "labels": [],
       "body": "Define the term non-equivocation formally as it relates to this architecture document, per https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/107#discussion_r1367393803.\r\n            ",
       "createdAt": "2023-10-20T19:26:50Z",
-      "updatedAt": "2023-10-20T19:26:50Z",
+      "updatedAt": "2023-11-27T21:16:23Z",
       "closedAt": null,
       "comments": []
     },
@@ -14253,24 +14253,26 @@
       "id": "PR_kwDOIvmHss5gDO8w",
       "title": "Link to default HTML format for RFC9393 reference",
       "url": "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/130",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "aj-stein-nist",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "A minor nit, but in the current version of the draft only RFC 9393 (COSWID) links to its PDF form, not the default HTML form. It is minor, but hopefully more (eventual) consistency is a good thing.",
       "createdAt": "2023-11-21T17:47:22Z",
-      "updatedAt": "2023-11-21T20:17:06Z",
+      "updatedAt": "2023-11-27T20:48:29Z",
       "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
       "baseRefName": "main",
       "baseRefOid": "930a0cd38a92dd6079bda2ed3c675019ee9b0aa3",
       "headRepository": "aj-stein-nist/draft-ietf-scitt-architecture",
       "headRefName": "align-rfc-references",
       "headRefOid": "435689f45ed09cc316a6c6c34b566c6b0262e0af",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2023-11-27T20:48:29Z",
+      "mergedAt": "2023-11-27T20:48:29Z",
+      "mergedBy": "SteveLasker",
+      "mergeCommit": {
+        "oid": "f70576e324b93b9b7c1d8c605d8f33c0bdfa1063"
+      },
       "comments": [],
       "reviews": [
         {
@@ -14284,6 +14286,19 @@
           "body": "",
           "createdAt": "2023-11-21T20:17:06Z",
           "updatedAt": "2023-11-21T20:17:06Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOIvmHss5oYyvZ",
+          "commit": {
+            "abbreviatedOid": "435689f"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM\r\ngood quick fix",
+          "createdAt": "2023-11-27T20:48:23Z",
+          "updatedAt": "2023-11-27T20:48:23Z",
           "comments": []
         }
       ]
@@ -14300,7 +14315,7 @@
       "labels": [],
       "body": "Define equivocation and non-equivocation and cite the article that coined the term in analyzing Lamport. Closes ietf-wg-scitt/draft-ietf-scitt-architecture#116.",
       "createdAt": "2023-11-21T23:10:32Z",
-      "updatedAt": "2023-11-22T14:26:09Z",
+      "updatedAt": "2023-11-27T23:28:36Z",
       "baseRepository": "ietf-wg-scitt/draft-ietf-scitt-architecture",
       "baseRefName": "main",
       "baseRefOid": "930a0cd38a92dd6079bda2ed3c675019ee9b0aa3",
@@ -14312,7 +14327,53 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOIvmHss5oZBMO",
+          "commit": {
+            "abbreviatedOid": "2f2e17f"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2023-11-27T21:16:01Z",
+          "updatedAt": "2023-11-27T21:16:01Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOIvmHss5oZujM",
+          "commit": {
+            "abbreviatedOid": "2f2e17f"
+          },
+          "author": "SteveLasker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Some updated clarfiication and suggestions. ",
+          "createdAt": "2023-11-27T23:01:57Z",
+          "updatedAt": "2023-11-27T23:28:21Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Important nit.\r\nIssuers create signed statements they register, which means the Transparency Service must not provide different results to different verifiers. But, it doesn't provide results _to_ Issuers, in this sense.\r\n\r\nThe TS can't, and shouldn't, prevent an Issuer from making updated statements as it learns more. \r\nOn Monday, the artifact \"is fine\". On Wednesday, the Issuer learns of a new vulnerability and registers an updated statement that says the artifact \"isn't fine\". This is a valid scenario, yet it's not equivocation. \r\n\r\nHowever, the TS shouldn't be able to return different results of the same Signed Statement to different Verifiers.\r\n\r\nI'm wondering if we should better summarize Non-equivocation, and let specific references clarify it in context.\r\n\r\nAnd, do we need to specify Equivocation _and_ Non Equivocation? ",
+              "createdAt": "2023-11-27T23:01:58Z",
+              "updatedAt": "2023-11-27T23:28:21Z"
+            },
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\r\n  NON-EQUIVOCATION: DOI.10.1145/1323293.1294280\r\n```",
+              "createdAt": "2023-11-27T23:04:44Z",
+              "updatedAt": "2023-11-27T23:28:21Z"
+            },
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\n: assurance an Issuer is unable to make different Statements to different Verifiers.\r\nThe Transparency Service registers Signed Statements from Issuers, returning consistent results to all Verifiers. {{NON-EQUIVOCATION}}\r\nOver time, an Issuer may register new Signed Statements about an Artifact reflecting new information, however, the collection of statements about the Artifact are consistently returned to all Verifiers.\r\n```",
+              "createdAt": "2023-11-27T23:26:10Z",
+              "updatedAt": "2023-11-27T23:28:21Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
